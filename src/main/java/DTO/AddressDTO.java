@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DTO;
 
 import entity.CityInfo;
 import entity.Person;
 import java.util.Collection;
 
-/**
- *
- * @author mohammahomarhariri
- */
+
 public class AddressDTO {
     
     private Long id;
@@ -21,12 +14,26 @@ public class AddressDTO {
     private Collection<Person> persons;
     private CityInfo cityInfo;
 
+    public AddressDTO()
+    {
+    }
+    
     public AddressDTO(Long id, String street, String additionalInfo, Collection<Person> persons, CityInfo cityInfo) {
         this.id = id;
         this.street = street;
         this.additionalInfo = additionalInfo;
         this.persons = persons;
         this.cityInfo = cityInfo;
+    }
+    
+    public String getCityInfoCity()
+    {
+        return cityInfo.getCity();
+    }
+    
+    public String getCityInfoZip()
+    {
+        return cityInfo.getZip();
     }
 
     public Long getId() {
