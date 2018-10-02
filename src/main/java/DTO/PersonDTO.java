@@ -17,6 +17,8 @@ public class PersonDTO
     private Address address;
     private String addressStreet;
     private String addressAddInfo;
+    private String cityInfoCity;
+    private String cityInfoZip;
 
     private List<Phone> phones;
 
@@ -32,14 +34,25 @@ public class PersonDTO
         this.firstName = firstName;
         this.lastName = lastName;
     }
-    
-    public PersonDTO(Long id, String email, String firstName, String lastName, Address address, String addressStreet, String addressAddInfo)
+
+    public PersonDTO(Long id, String email, String firstName, String lastName, String addressStreet, String addressAddInfo, String cityInfoCity, String cityInfoZip)
     {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
+        this.addressStreet = addressStreet;
+        this.addressAddInfo = addressAddInfo;
+        this.cityInfoCity = cityInfoCity;
+        this.cityInfoZip = cityInfoZip;
+    }
+    
+    public PersonDTO(Long id, String email, String firstName, String lastName, String addressStreet, String addressAddInfo)
+    {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.addressStreet = addressStreet;
         this.addressAddInfo = addressAddInfo;
     }
@@ -63,6 +76,26 @@ public class PersonDTO
         this.address = address;
     }
 
+    public String getCityInfoCity()
+    {
+        return cityInfoCity;
+    }
+
+    public void setCityInfoCity(String cityInfoCity)
+    {
+        this.cityInfoCity = cityInfoCity;
+    }
+
+    public String getCityInfoZip()
+    {
+        return cityInfoZip;
+    }
+
+    public void setCityInfoZip(String cityInfoZip)
+    {
+        this.cityInfoZip = cityInfoZip;
+    }
+    
     public String getAddressStreet()
     {
         return addressStreet;
@@ -82,8 +115,6 @@ public class PersonDTO
     {
         this.addressAddInfo = addressAddInfo;
     }
-
-    
     
     public Long getId()
     {
@@ -158,7 +189,10 @@ public class PersonDTO
     @Override
     public String toString()
     {
-        return "PersonDTO{" + "id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", phones=" + phones + ", hobbies=" + hobbies + '}' + "\n";
+        return "PersonDTO{" + "id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", addressStreet=" + addressStreet + ", addressAddInfo=" + addressAddInfo + ", cityInfoCity=" + cityInfoCity + ", cityInfoZip=" + cityInfoZip + ", phones=" + phones + ", hobbies=" + hobbies + '}' + "\n";
     }
+
+
+
 
 }

@@ -32,7 +32,7 @@ public class Person implements Serializable
     @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
     private transient List<Phone> phones = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Hobby> hobbies;
 
     public Person()
