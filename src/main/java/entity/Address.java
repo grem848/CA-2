@@ -6,10 +6,13 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -20,8 +23,63 @@ public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    private String street;
+    private String additionalInfo;
+    
+    @OneToMany(mappedBy = "address")
+    private Collection<Person> persons;
+    
+    @ManyToOne
+    private CityInfo cityInfo;
+
+    public Address(String street, String additionalInfo, Collection<Person> persons, CityInfo cityInfo) {
+        this.street = street;
+        this.additionalInfo = additionalInfo;
+        this.persons = persons;
+        this.cityInfo = cityInfo;
+    }
+
+    public Address() {
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
+    }
+
+    public Collection<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(Collection<Person> persons) {
+        this.persons = persons;
+    }
+
+    public void addPerson(Person person) {
+        this.persons.add(person);
+    }
+
+    public CityInfo getCityInfo() {
+        return cityInfo;
+    }
+
+    public void setCityInfo(CityInfo cityInfo) {
+        this.cityInfo = cityInfo;
+    }
 
     public Long getId() {
         return id;
