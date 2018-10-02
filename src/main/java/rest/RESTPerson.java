@@ -29,64 +29,64 @@ public class RESTPerson
     Date date = new Date();
 
     Gson gson;
-    Facade fp = new Facade(Persistence.createEntityManagerFactory("pu"));
+//    Facade fp = new Facade(Persistence.createEntityManagerFactory("pu"));
 
     public RESTPerson()
     {
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
-
-    @Path("complete")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonsJson()
-    {
-        String json = gson.toJson(fp.getPersons());
-
-        return Response.ok(json).build();
-    }
-    
-    @Path("complete/id")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonJsonFromId()
-    {
-        String json = gson.toJson(fp.getPersons());
-
-        return Response.ok(json).build();
-    }
-    
-    @Path("complete/contactinfo")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonsContactInfoJson()
-    {
-        String json = gson.toJson(fp.getPersons());
-
-        return Response.ok(json).build();
-    }
-    
-    
-    @Path("complete/contactinfo/id")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonContactInfoJson()
-    {
-        String json = gson.toJson(fp.getPersons());
-
-        return Response.ok(json).build();
-    }
-    
-    @POST
-    @Consumes("application/json")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addPersonJson(String json) // {"firstName":"Rasmus", "lastName":"Friis","phoneNumber":"911"}
-    {
-        Person person = gson.fromJson(json, Person.class);
-
-        fp.addPerson(person);
-
-        return Response.ok().entity(json).build();
-
-    }
+//
+//    @Path("complete")
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getPersonsJson()
+//    {
+//        String json = gson.toJson(fp.getPersons());
+//
+//        return Response.ok(json).build();
+//    }
+//    
+//    @Path("complete/id")
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getPersonJsonFromId()
+//    {
+//        String json = gson.toJson(fp.getPersons());
+//
+//        return Response.ok(json).build();
+//    }
+//    
+//    @Path("complete/contactinfo")
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getPersonsContactInfoJson()
+//    {
+//        String json = gson.toJson(fp.getPersons());
+//
+//        return Response.ok(json).build();
+//    }
+//    
+//    
+//    @Path("complete/contactinfo/id")
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getPersonContactInfoJson()
+//    {
+//        String json = gson.toJson(fp.getPersons());
+//
+//        return Response.ok(json).build();
+//    }
+//    
+//    @POST
+//    @Consumes("application/json")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response addPersonJson(String json) // {"firstName":"Rasmus", "lastName":"Friis","phoneNumber":"911"}
+//    {
+//        Person person = gson.fromJson(json, Person.class);
+//
+//        fp.addPerson(person);
+//
+//        return Response.ok().entity(json).build();
+//
+//    }
 }
