@@ -1,8 +1,6 @@
-
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,7 +11,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-
 @Entity
 public class Person implements Serializable
 {
@@ -22,93 +19,108 @@ public class Person implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String email;
     private String firstName;
     private String lastName;
-    
+
     @ManyToOne
     private Address address;
-    
+
     @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
     private Collection<Phone> phones;
-    
+
     @ManyToMany
     private Collection<Hobby> hobbies;
 
-    public Person() {
+    public Person()
+    {
     }
 
-    public Person(String email, String firstName, String lastName, Address address)
+    public Person(String email, String firstName, String lastName)
+    {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Person(String email, String firstName, String lastName, Address address, Collection<Phone> phones, Collection<Hobby> hobbies)
     {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-    }
-    
-    public Person(String email, String firstName, String lastName, Address address, Collection<Phone> phones, Collection<Hobby> hobbies) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
         this.phones = phones;
         this.hobbies = hobbies;
     }
 
-    public void addHobby(Hobby hobby) {
-       this.hobbies.add(hobby);
+    public void addHobby(Hobby hobby)
+    {
+        this.hobbies.add(hobby);
     }
 
-    public Address getAddress() {
+    public Address getAddress()
+    {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(Address address)
+    {
         this.address = address;
     }
-        
-    public Collection<Hobby> getHobbies() {
+
+    public Collection<Hobby> getHobbies()
+    {
         return hobbies;
     }
 
-    public void setHobbies(Collection<Hobby> hobbies) {
+    public void setHobbies(Collection<Hobby> hobbies)
+    {
         this.hobbies = hobbies;
     }
 
-    public void addPhone(Phone phone) {
+    public void addPhone(Phone phone)
+    {
         phones.add(phone);
-    }    
+    }
 
-    public Collection<Phone> getPhones() {
+    public Collection<Phone> getPhones()
+    {
         return phones;
     }
 
-    public void setPhones(Collection<Phone> phones) {
+    public void setPhones(Collection<Phone> phones)
+    {
         this.phones = phones;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    public String getFirstName() {
+    public String getFirstName()
+    {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(String firstName)
+    {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    public String getLastName()
+    {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(String lastName)
+    {
         this.lastName = lastName;
     }
 
@@ -151,5 +163,5 @@ public class Person implements Serializable
     {
         return "entity.Person[ id=" + id + " ]";
     }
-    
+
 }

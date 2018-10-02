@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DTO;
 
 import entity.Address;
@@ -10,10 +6,7 @@ import entity.Hobby;
 import entity.Phone;
 import java.util.Collection;
 
-/**
- *
- * @author mohammahomarhariri
- */
+
 public class PersonDTO {
     
     private Long id;
@@ -30,6 +23,15 @@ public class PersonDTO {
 
     public PersonDTO()
     {
+    }
+
+    public PersonDTO(Long id, String email, String firstName, String lastName, Address address)
+    {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
     }
 
     public PersonDTO(String email, String firstName, String lastName, Address address)
@@ -114,5 +116,12 @@ public class PersonDTO {
     public void setHobbies(Collection<Hobby> hobbies) {
         this.hobbies = hobbies;
     }
+
+    @Override
+    public String toString()
+    {
+        return "PersonDTO{" + "id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", phones=" + phones + ", hobbies=" + hobbies + '}' + "\n";
+    }
+    
 
 }
