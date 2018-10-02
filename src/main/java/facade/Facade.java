@@ -32,13 +32,9 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address) from Person p where p.firstName = :firstName and p.lastName = :lastName", PersonDTO.class);
-            query.setParameter("firstName", person.getFirstName());
-            query.setParameter("lastName", person.getLastName());
-            if (query.getResultList().size() > 0)
-            {
-                p = query.getResultList().get(0);
-            }
+            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address) from Person p where p.id = :id", PersonDTO.class);
+            query.setParameter("id", person.getId());
+            p = query.getSingleResult();
             em.getTransaction().commit();
             return p;
         } finally
@@ -46,6 +42,7 @@ public class Facade
             em.close();
         }
     }
+   
 
     public List<PersonDTO> getAllPersons()
     {

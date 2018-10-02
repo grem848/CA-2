@@ -1,7 +1,9 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +30,7 @@ public class Person implements Serializable
     private Address address;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
-    private Collection<Phone> phones;
+    private transient List<Phone> phones = new ArrayList<>();
 
     @ManyToMany
     private Collection<Hobby> hobbies;
@@ -44,15 +46,6 @@ public class Person implements Serializable
         this.lastName = lastName;
     }
 
-    public Person(String email, String firstName, String lastName, Address address, Collection<Phone> phones, Collection<Hobby> hobbies)
-    {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.phones = phones;
-        this.hobbies = hobbies;
-    }
 
     public void addHobby(Hobby hobby)
     {
@@ -84,12 +77,12 @@ public class Person implements Serializable
         phones.add(phone);
     }
 
-    public Collection<Phone> getPhones()
+    public List<Phone> getPhones()
     {
         return phones;
     }
 
-    public void setPhones(Collection<Phone> phones)
+    public void setPhones(List<Phone> phones)
     {
         this.phones = phones;
     }
