@@ -3,6 +3,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,8 +22,14 @@ public class CityInfo implements Serializable {
     private String zip;
     private String city;
     
-    @OneToMany(mappedBy = "cityInfo")
+    @OneToMany(mappedBy = "cityInfo", cascade = CascadeType.PERSIST)
     private Collection<Address> addresses;
+
+    public CityInfo(String zip, String city)
+    {
+        this.zip = zip;
+        this.city = city;
+    }
 
     public CityInfo(String zipCode, String city, Collection<Address> addresses) {
         this.zip = zipCode;

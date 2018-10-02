@@ -21,6 +21,10 @@ public class AddressDTO {
     private Collection<Person> persons;
     private CityInfo cityInfo;
 
+    public AddressDTO()
+    {
+    }
+    
     public AddressDTO(Long id, String street, String additionalInfo, Collection<Person> persons, CityInfo cityInfo) {
         this.id = id;
         this.street = street;

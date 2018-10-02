@@ -4,6 +4,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class Person implements Serializable
     @ManyToOne
     private Address address;
     
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
     private Collection<Phone> phones;
     
     @ManyToMany
@@ -38,6 +39,14 @@ public class Person implements Serializable
     public Person() {
     }
 
+    public Person(String email, String firstName, String lastName, Address address)
+    {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+    }
+    
     public Person(String email, String firstName, String lastName, Address address, Collection<Phone> phones, Collection<Hobby> hobbies) {
         this.email = email;
         this.firstName = firstName;
@@ -58,7 +67,7 @@ public class Person implements Serializable
     public void setAddress(Address address) {
         this.address = address;
     }
-
+        
     public Collection<Hobby> getHobbies() {
         return hobbies;
     }

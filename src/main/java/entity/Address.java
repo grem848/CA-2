@@ -3,6 +3,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,11 +23,18 @@ public class Address implements Serializable {
     private String street;
     private String additionalInfo;
     
-    @OneToMany(mappedBy = "address")
+    @OneToMany(mappedBy = "address", cascade = CascadeType.PERSIST)
     private Collection<Person> persons;
     
     @ManyToOne
     private CityInfo cityInfo;
+
+    public Address(String street, String additionalInfo, CityInfo cityInfo)
+    {
+        this.street = street;
+        this.additionalInfo = additionalInfo;
+        this.cityInfo = cityInfo;
+    }
 
     public Address(String street, String additionalInfo, Collection<Person> persons, CityInfo cityInfo) {
         this.street = street;

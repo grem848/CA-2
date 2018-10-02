@@ -28,6 +28,18 @@ public class PersonDTO {
     
     private Collection<Hobby> hobbies;
 
+    public PersonDTO()
+    {
+    }
+
+    public PersonDTO(String email, String firstName, String lastName, Address address)
+    {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+    }
+
     public PersonDTO(Long id, String email, String firstName, String lastName, Address address, Collection<Phone> phones, Collection<Hobby> hobbies) {
         this.id = id;
         this.email = email;

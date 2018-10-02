@@ -20,6 +20,10 @@ public class CityInfoDTO {
     private String city;
     private Collection<Address> addresses;
 
+    public CityInfoDTO()
+    {
+    }
+
     public CityInfoDTO(Long id, String zip, String city, Collection<Address> addresses) {
         this.id = id;
         this.zip = zip;
