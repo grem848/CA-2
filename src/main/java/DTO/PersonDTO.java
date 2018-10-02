@@ -26,6 +26,13 @@ public class PersonDTO
     {
     }
 
+    public PersonDTO(String email, String firstName, String lastName)
+    {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    
     public PersonDTO(Long id, String email, String firstName, String lastName, Address address, String addressStreet, String addressAddInfo)
     {
         this.id = id;

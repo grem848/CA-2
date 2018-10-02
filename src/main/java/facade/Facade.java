@@ -42,7 +42,6 @@ public class Facade
             em.close();
         }
     }
-   
 
     public List<PersonDTO> getAllPersons()
     {
@@ -63,7 +62,7 @@ public class Facade
             em.close();
         }
     }
-    
+
     public List<PersonDTO> getAllPersonsContactInfo()
     {
         EntityManager em = getEntityManager();
@@ -99,27 +98,51 @@ public class Facade
         }
     }
 
-    public Person deletePerson(Person person)
-    {
-        EntityManager em = getEntityManager();
-
-        try
-        {
-            em.getTransaction().begin();
-            Query query = em.createQuery("select p from Person p where p.id = :id", Person.class);
-            query.setParameter("id", person.getId());
-            Person p = (Person) query.getSingleResult();
-            if (p != null)
-            {
-                em.remove(p);
-            }
-            em.getTransaction().commit();
-            return p;
-        } finally
-        {
-            em.close();
-        }
-    }
+//    public PersonDTO deletePerson(Person person)
+//    {
+//        EntityManager em = getEntityManager();
+//        
+//        PersonDTO p = null;
+//
+//        try
+//        {
+//            em.getTransaction().begin();
+//            TypedQuery<PersonDTO> query = em.createQuery("select p from Person p where p.id = :id", PersonDTO.class);
+//            query.setParameter("id", person.getId());
+//            p = query.getSingleResult();
+//            if (p != null)
+//            {
+//                em.remove(p);
+//            }
+//            em.getTransaction().commit();
+//            return p;
+//        } finally
+//        {
+//            em.close();
+//        }
+//    }
+    
+//    public Person deletePerson(Person person)
+//    {
+//        EntityManager em = emf.createEntityManager();
+//
+//        try
+//        {
+//            em.getTransaction().begin();
+//            Query query = em.createQuery("select p from Person p where p.id = :id", Person.class);
+//            query.setParameter("id", person.getId());
+//            Person p = (Person) query.getSingleResult();
+//            if (p != null)
+//            {
+//                em.remove(p);
+//            }
+//            em.getTransaction().commit();
+//            return p;
+//        } finally
+//        {
+//            em.close();
+//        }
+//    }
 
     public Person editPerson(Person person)
     {
