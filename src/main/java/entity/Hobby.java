@@ -6,69 +6,74 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 /**
  *
  * @author mohammahomarhariri
  */
 @Entity
-public class CityInfo implements Serializable {
+public class Hobby implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String zip;
-    private String city;
+    private String name;
+    private String description;
     
-    @OneToMany(mappedBy = "cityInfo")
-    private Collection<Address> addresses;
+    @ManyToMany(mappedBy = "hobbies")
+    private Collection<Person> persons;
 
-    public CityInfo(String zipCode, String city, Collection<Address> addresses) {
-        this.zip = zipCode;
-        this.city = city;
-        this.addresses = addresses;
+    public Hobby() {
     }
 
-    public CityInfo() {
+    public Hobby(String name, String description, Collection<Person> persons) {
+        this.name = name;
+        this.description = description;
+        this.persons = persons;
     }
 
-    public Collection<Address> getAddresses() {
-        return addresses;
+    public Hobby(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
-    public void addAddress(Address address) {
-        this.addresses.add(address);
+    public String getName() {
+        return name;
     }
 
-    public void setAddresses(Collection<Address> addresses) {
-        this.addresses = addresses;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getZip() {
-        return zip;
+    public String getDescription() {
+        return description;
     }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getCity() {
-        return city;
+    public Collection<Person> getPersons() {
+        return persons;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setPersons(Collection<Person> persons) {
+        this.persons = persons;
     }
     
-    
+    public void addPerson(Person person) {
+        this.persons.add(person);
+    }
+        
 
     public Long getId() {
         return id;
@@ -88,10 +93,10 @@ public class CityInfo implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CityInfo)) {
+        if (!(object instanceof Hobby)) {
             return false;
         }
-        CityInfo other = (CityInfo) object;
+        Hobby other = (Hobby) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -100,7 +105,7 @@ public class CityInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.CityInfo[ id=" + id + " ]";
+        return "entity.Hobby[ id=" + id + " ]";
     }
     
 }
