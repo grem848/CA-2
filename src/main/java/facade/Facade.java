@@ -62,6 +62,25 @@ public class Facade
             em.close();
         }
     }
+    
+    public List<PersonDTO> getAllPersonsContactInfo()
+    {
+        EntityManager em = getEntityManager();
+
+        List<PersonDTO> persons = null;
+
+        try
+        {
+            em.getTransaction().begin();
+            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address) from Person p", PersonDTO.class).getResultList();
+
+            em.getTransaction().commit();
+            return persons;
+        } finally
+        {
+            em.close();
+        }
+    }
 
     public Person addPerson(Person p)
     {

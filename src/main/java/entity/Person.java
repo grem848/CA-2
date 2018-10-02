@@ -33,7 +33,7 @@ public class Person implements Serializable
     private transient List<Phone> phones = new ArrayList<>();
 
     @ManyToMany
-    private Collection<Hobby> hobbies;
+    private List<Hobby> hobbies;
 
     public Person()
     {
@@ -46,6 +46,13 @@ public class Person implements Serializable
         this.lastName = lastName;
     }
 
+    public Person(String email, String firstName, String lastName, Address address)
+    {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+    }
 
     public void addHobby(Hobby hobby)
     {
@@ -62,12 +69,12 @@ public class Person implements Serializable
         this.address = address;
     }
 
-    public Collection<Hobby> getHobbies()
+    public List<Hobby> getHobbies()
     {
         return hobbies;
     }
 
-    public void setHobbies(Collection<Hobby> hobbies)
+    public void setHobbies(List<Hobby> hobbies)
     {
         this.hobbies = hobbies;
     }

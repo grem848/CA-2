@@ -25,6 +25,16 @@ public class AddressDTO {
         this.persons = persons;
         this.cityInfo = cityInfo;
     }
+    
+    public String getCityInfoCity()
+    {
+        return cityInfo.getCity();
+    }
+    
+    public String getCityInfoZip()
+    {
+        return cityInfo.getZip();
+    }
 
     public Long getId() {
         return id;
