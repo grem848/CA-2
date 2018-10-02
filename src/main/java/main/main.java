@@ -61,7 +61,7 @@ public class main
         System.out.println("Get a person in the system from id: \n" + facade.getPerson(p6));
 
         System.out.println("---");
-        
+
 //        CityInfo c1 = new CityInfo("2800", "Lyngby");
 //        
 //        Address a1 = new Address("Road 1", "Nice road yo");
@@ -69,9 +69,10 @@ public class main
 //        Person p7 = new Person("testensen1@mail.dk", "Egon", "Testensen");
 //        p7.setAddress(a1);
 //
-//        System.out.println("Add a person to the system: \n" + facade.addPerson(p7)); // DOESNT WORK
-
+//        System.out.println("Add a person to the system: \n" + facade.addPerson(p7)); // DOESNT WORK with address
         System.out.println("---");
+
+//        System.out.println("Get a person in the system from id: \n" + facade.deletePerson(p6)); // DOESNT WORK
 
     }
 
