@@ -2,56 +2,56 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
+import javax.persistence.ManyToMany;
 
 @Entity
-public class Address implements Serializable {
+public class Hobby implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String street;
-    private String additionalInfo;
+    private String name;
+    private String description;
     
-    @OneToMany(mappedBy = "address")
+    @ManyToMany(mappedBy = "hobbies")
     private Collection<Person> persons;
-    
-    @ManyToOne
-    private CityInfo cityInfo;
 
-    public Address(String street, String additionalInfo, Collection<Person> persons, CityInfo cityInfo) {
-        this.street = street;
-        this.additionalInfo = additionalInfo;
+    public Hobby() {
+    }
+
+    public Hobby(String name, String description, Collection<Person> persons) {
+        this.name = name;
+        this.description = description;
         this.persons = persons;
-        this.cityInfo = cityInfo;
     }
 
-    public Address() {
+    public Hobby(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
-    public String getStreet() {
-        return street;
+    public String getName() {
+        return name;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAdditionalInfo() {
-        return additionalInfo;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Collection<Person> getPersons() {
@@ -61,18 +61,11 @@ public class Address implements Serializable {
     public void setPersons(Collection<Person> persons) {
         this.persons = persons;
     }
-
+    
     public void addPerson(Person person) {
         this.persons.add(person);
     }
-
-    public CityInfo getCityInfo() {
-        return cityInfo;
-    }
-
-    public void setCityInfo(CityInfo cityInfo) {
-        this.cityInfo = cityInfo;
-    }
+        
 
     public Long getId() {
         return id;
@@ -92,10 +85,10 @@ public class Address implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Address)) {
+        if (!(object instanceof Hobby)) {
             return false;
         }
-        Address other = (Address) object;
+        Hobby other = (Hobby) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -104,7 +97,7 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Address[ id=" + id + " ]";
+        return "entity.Hobby[ id=" + id + " ]";
     }
     
 }
