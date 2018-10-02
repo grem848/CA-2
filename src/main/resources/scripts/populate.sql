@@ -1,12 +1,4 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- * Author:  mohammahomarhariri
- * Created: 02-10-2018
- */
+
 INSERT INTO CITYINFO (ZIP, CITY) VALUES ('0555', 'Scanning');
 INSERT INTO CITYINFO (ZIP, CITY) VALUES ('0800', 'Høje Taastrup');
 INSERT INTO CITYINFO (ZIP, CITY) VALUES ('0877', 'København C');
