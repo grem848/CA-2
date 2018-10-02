@@ -26,7 +26,7 @@ public class Person implements Serializable
     private String firstName;
     private String lastName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Address address;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
