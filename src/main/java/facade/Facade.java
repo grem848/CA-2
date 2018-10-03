@@ -23,7 +23,7 @@ public class Facade
         return emf.createEntityManager();
     }
 
-    public PersonDTO getPerson(Person person)
+    public PersonDTO getPerson(long id)
     {
         EntityManager em = getEntityManager();
 
@@ -32,8 +32,8 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address) from Person p where p.id = :id", PersonDTO.class);
-            query.setParameter("id", person.getId());
+            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address.street, p.address.additionalInfo, p.address.cityInfo.city, p.address.cityInfo.zip) from Person p where p.id = :id", PersonDTO.class);
+            query.setParameter("id", id);
             p = query.getSingleResult();
             em.getTransaction().commit();
             return p;
@@ -72,10 +72,30 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address) from Person p", PersonDTO.class).getResultList();
+            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName) from Person p", PersonDTO.class).getResultList();
 
             em.getTransaction().commit();
             return persons;
+        } finally
+        {
+            em.close();
+        }
+    }
+    
+        public PersonDTO getPersonContactInfo(long id)
+    {
+        EntityManager em = getEntityManager();
+
+        PersonDTO p = null;
+
+        try
+        {
+            em.getTransaction().begin();
+            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName) from Person p where p.id = :id", PersonDTO.class);
+            query.setParameter("id", id);
+            p = query.getSingleResult();
+            em.getTransaction().commit();
+            return p;
         } finally
         {
             em.close();

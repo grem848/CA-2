@@ -57,13 +57,12 @@ public class PersonDTO
         this.addressAddInfo = addressAddInfo;
     }
     
-    public PersonDTO(Long id, String email, String firstName, String lastName, Address address)
+    public PersonDTO(Long id, String email, String firstName, String lastName)
     {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
     }
     
     

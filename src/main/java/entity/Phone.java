@@ -102,6 +102,12 @@ public class Phone implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Phone{" + "id=" + id + ", number=" + number + ", description=" + description + ", person=" + person + '}';
+    }
+
     
     
 }
