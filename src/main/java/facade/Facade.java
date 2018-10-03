@@ -1,5 +1,6 @@
 package facade;
 
+import DTO.ContactInfo;
 import DTO.PersonDTO;
 import entity.Person;
 import java.util.List;
@@ -63,17 +64,16 @@ public class Facade
         }
     }
 
-    public List<PersonDTO> getAllPersonsContactInfo()
+    public List<ContactInfo> getAllPersonsContactInfo()
     {
         EntityManager em = getEntityManager();
 
-        List<PersonDTO> persons = null;
+        List<ContactInfo> persons = null;
 
         try
         {
             em.getTransaction().begin();
-            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p) from Person p", PersonDTO.class).getResultList();
-//            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName) from Person p", PersonDTO.class).getResultList();
+            persons = em.createQuery("SELECT NEW DTO.ContactInfo(p) from Person p", ContactInfo.class).getResultList();
 
             em.getTransaction().commit();
             return persons;
@@ -83,16 +83,16 @@ public class Facade
         }
     }
     
-        public PersonDTO getPersonContactInfo(long id)
+        public ContactInfo getPersonContactInfo(long id)
     {
         EntityManager em = getEntityManager();
 
-        PersonDTO p = null;
+        ContactInfo p = null;
 
         try
         {
             em.getTransaction().begin();
-            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p) from Person p where p.id = :id", PersonDTO.class);
+            TypedQuery<ContactInfo> query = em.createQuery("Select new DTO.ContactInfo(p) from Person p where p.id = :id", ContactInfo.class);
             query.setParameter("id", id);
             p = query.getSingleResult();
             em.getTransaction().commit();

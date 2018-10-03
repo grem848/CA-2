@@ -45,7 +45,6 @@ public class PersonDTO
         {
             phones.add(new PhoneDTO(phone));
         }
-        this.phones = getPhones();
     }
 
     public String getCityInfoCity()
@@ -138,7 +137,7 @@ public class PersonDTO
         this.address = address;
     }
 
-    private List<PhoneDTO> getPhones()
+    public List<PhoneDTO> getPhones()
     {
         return phones;
     }

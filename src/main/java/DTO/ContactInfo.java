@@ -6,6 +6,7 @@
 package DTO;
 
 import entity.Person;
+import entity.Phone;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class ContactInfo {
         this.name = p.getFirstName() + " " + p.getLastName();
         this.email = p.getEmail();
         
-        for (PhoneDTO phone : phones) {
-            phones.add(phone);
+        for (Phone phone : p.getPhones()) {
+            phones.add(new PhoneDTO(phone));
         }
     }
 
@@ -62,5 +63,12 @@ public class ContactInfo {
     public void setPhones(List<PhoneDTO> phones) {
         this.phones = phones;
     }
+
+    @Override
+    public String toString()
+    {
+        return "ContactInfo{" + "id=" + id + ", name=" + name + ", email=" + email + ", phones=" + phones + '}' + "\n";
+    }
+    
     
 }
