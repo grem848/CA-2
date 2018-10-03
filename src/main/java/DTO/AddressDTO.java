@@ -1,79 +1,102 @@
-
 package DTO;
 
+import entity.Address;
 import entity.CityInfo;
 import entity.Person;
-import java.util.Collection;
+import java.util.List;
 
+public class AddressDTO
+{
 
-public class AddressDTO {
-    
     private Long id;
     private String street;
     private String additionalInfo;
-    private Collection<Person> persons;
+    private List<Person> persons;
     private CityInfo cityInfo;
+    private String cityInfoCity;
+    private String cityInfoZip;
 
     public AddressDTO()
     {
     }
-    
-    public AddressDTO(Long id, String street, String additionalInfo, Collection<Person> persons, CityInfo cityInfo) {
-        this.id = id;
-        this.street = street;
-        this.additionalInfo = additionalInfo;
-        this.persons = persons;
-        this.cityInfo = cityInfo;
-    }
-    
-    public String getCityInfoCity()
+
+    public AddressDTO(Address a)
     {
-        return cityInfo.getCity();
-    }
-    
-    public String getCityInfoZip()
-    {
-        return cityInfo.getZip();
+        this.street = a.getStreet();
+        this.additionalInfo = a.getAdditionalInfo();
+        this.cityInfoCity = a.getCityInfo().getCity();
+        this.cityInfoZip = a.getCityInfo().getZip();
+
     }
 
-    public Long getId() {
+    public String getCityInfoCity()
+    {
+        return cityInfoCity;
+    }
+
+    public void setCityInfoCity(String cityInfoCity)
+    {
+        this.cityInfoCity = cityInfoCity;
+    }
+
+    public String getCityInfoZip()
+    {
+        return cityInfoZip;
+    }
+
+    public void setCityInfoZip(String cityInfoZip)
+    {
+        this.cityInfoZip = cityInfoZip;
+    }
+
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public String getStreet() {
+    public String getStreet()
+    {
         return street;
     }
 
-    public void setStreet(String street) {
+    public void setStreet(String street)
+    {
         this.street = street;
     }
 
-    public String getAdditionalInfo() {
+    public String getAdditionalInfo()
+    {
         return additionalInfo;
     }
 
-    public void setAdditionalInfo(String additionalInfo) {
+    public void setAdditionalInfo(String additionalInfo)
+    {
         this.additionalInfo = additionalInfo;
     }
 
-    public Collection<Person> getPersons() {
+    public List<Person> getPersons()
+    {
         return persons;
     }
 
-    public void setPersons(Collection<Person> persons) {
+    public void setPersons(List<Person> persons)
+    {
         this.persons = persons;
     }
 
-    public CityInfo getCityInfo() {
+    public CityInfo getCityInfo()
+    {
         return cityInfo;
     }
 
-    public void setCityInfo(CityInfo cityInfo) {
+    public void setCityInfo(CityInfo cityInfo)
+    {
         this.cityInfo = cityInfo;
     }
-    
+
 }

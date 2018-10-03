@@ -53,7 +53,6 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-//            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address) from Person p", PersonDTO.class).getResultList();
             persons = em.createQuery("SELECT NEW DTO.PersonDTO(p) from Person p", PersonDTO.class).getResultList();
 
             em.getTransaction().commit();

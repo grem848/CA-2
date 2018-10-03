@@ -1,4 +1,3 @@
-
 package main;
 
 import entity.Address;
@@ -9,23 +8,22 @@ import facade.Facade;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-
 public class Main
 {
 
     public static void main(String[] args)
     {
-        // Persistence.generateSchema("pu", null); // STEP 1
 
-// STEP 3
         Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
         EntityManager em = facade.getEntityManager();
         CityInfo c1 = new CityInfo("2800", "Lyngby");
 
         Address a1 = new Address("Road 1", "Nice road yo");
         Address a2 = new Address("Road 2", "New road");
-// STEP 3
 
+         // Persistence.generateSchema("pu", null); // STEP 1
+        
+        
 // STEP 2 
 //        em.getTransaction().begin(); 
 //        a1.setCityInfo(c1);
@@ -41,9 +39,8 @@ public class Main
 //        em.getTransaction().commit();
 //        em.close();
 // STEP 2
-
-
 // STEP 3
+
         System.out.println("Get all persons in the system: \n" + facade.getAllPersons());
 
         System.out.println("---");
@@ -56,15 +53,15 @@ public class Main
         Person p6 = new Person("testensen1@mail.dk", "Egon", "Testensen");
         p6.setAddress(a1);
         a1.addPerson(p6);
-        
+
         Phone phone = new Phone("911", "Sound of da police");
         p6.addPhone(phone);
         phone.setPerson(p6);
-        
+
         System.out.println(p6.getPhones());
 
         System.out.println("Add a person to the system: \n" + facade.addPerson(p6));
-        
+
         System.out.println("---");
 
         System.out.println("Get a person contactinfo in the system from id: \n" + facade.getPersonContactInfo(2));
@@ -74,6 +71,7 @@ public class Main
         System.out.println("Get all persons contactinfo in the system: \n" + facade.getAllPersonsContactInfo());
 
         System.out.println("---");
+
 // STEP 3
     }
 

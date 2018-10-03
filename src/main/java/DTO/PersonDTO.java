@@ -16,7 +16,7 @@ public class PersonDTO
     private String firstName;
     private String lastName;
 
-    private Address address;
+    private AddressDTO address;
     private String addressStreet;
     private String addressAddInfo;
     private String cityInfoCity;
@@ -36,11 +36,7 @@ public class PersonDTO
         this.email = p.getEmail();
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
-        this.address = p.getAddress();
-        this.addressStreet = address.getStreet();
-        this.addressAddInfo = address.getAdditionalInfo();
-        this.cityInfoCity = address.getCityInfo().getCity();
-        this.cityInfoZip = address.getCityInfo().getZip();
+        this.address = (new AddressDTO (p.getAddress()));
         for (Phone phone : p.getPhones())
         {
             phones.add(new PhoneDTO(phone));
@@ -127,12 +123,12 @@ public class PersonDTO
         this.lastName = lastName;
     }
 
-    public Address getAddress()
+    public AddressDTO getAddress()
     {
         return address;
     }
 
-    public void setAddress(Address address)
+    public void setAddress(AddressDTO address)
     {
         this.address = address;
     }
