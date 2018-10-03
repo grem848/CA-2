@@ -41,11 +41,13 @@ public class PersonDTO
         this.addressAddInfo = address.getAdditionalInfo();
         this.cityInfoCity = address.getCityInfo().getCity();
         this.cityInfoZip = address.getCityInfo().getZip();
-        
+        System.out.println(p.getPhones());
         for (Phone phone : p.getPhones())
         {
             phones.add(new PhoneDTO(phone));
         }
+        System.out.println(getPhones());
+        this.phones = getPhones();
     }
 
     public String getCityInfoCity()
@@ -138,7 +140,7 @@ public class PersonDTO
         this.address = address;
     }
 
-    public List<PhoneDTO> getPhones()
+    private List<PhoneDTO> getPhones()
     {
         return phones;
     }
