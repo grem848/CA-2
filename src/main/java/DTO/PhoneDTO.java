@@ -43,4 +43,10 @@ public class PhoneDTO {
         this.description = description;
     }
 
+    @Override
+    public String toString()
+    {
+        return "PhoneDTO{" + "id=" + id + ", phone=" + phone + ", description=" + description + '}';
+    }
+
 }
