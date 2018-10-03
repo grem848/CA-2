@@ -2,7 +2,9 @@ package DTO;
 
 import entity.Address;
 import entity.Hobby;
+import entity.Person;
 import entity.Phone;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersonDTO
@@ -20,7 +22,7 @@ public class PersonDTO
     private String cityInfoCity;
     private String cityInfoZip;
 
-    private List<Phone> phones;
+    private List<PhoneDTO> phones = new ArrayList();
 
     private List<Hobby> hobbies;
 
@@ -28,51 +30,22 @@ public class PersonDTO
     {
     }
 
-    public PersonDTO(String email, String firstName, String lastName)
+    public PersonDTO(Person p)
     {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public PersonDTO(Long id, String email, String firstName, String lastName, String addressStreet, String addressAddInfo, String cityInfoCity, String cityInfoZip)
-    {
-        this.id = id;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.addressStreet = addressStreet;
-        this.addressAddInfo = addressAddInfo;
-        this.cityInfoCity = cityInfoCity;
-        this.cityInfoZip = cityInfoZip;
-    }
-    
-    public PersonDTO(Long id, String email, String firstName, String lastName, String addressStreet, String addressAddInfo)
-    {
-        this.id = id;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.addressStreet = addressStreet;
-        this.addressAddInfo = addressAddInfo;
-    }
-    
-    public PersonDTO(Long id, String email, String firstName, String lastName)
-    {
-        this.id = id;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-    
-    
-    
-    public PersonDTO(String email, String firstName, String lastName, Address address)
-    {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
+        this.id = p.getId();
+        this.email = p.getEmail();
+        this.firstName = p.getFirstName();
+        this.lastName = p.getLastName();
+        this.address = p.getAddress();
+        this.addressStreet = address.getStreet();
+        this.addressAddInfo = address.getAdditionalInfo();
+        this.cityInfoCity = address.getCityInfo().getCity();
+        this.cityInfoZip = address.getCityInfo().getZip();
+        
+        for (Phone phone : p.getPhones())
+        {
+            phones.add(new PhoneDTO(phone));
+        }
     }
 
     public String getCityInfoCity()
@@ -165,12 +138,12 @@ public class PersonDTO
         this.address = address;
     }
 
-    public List<Phone> getPhones()
+    public List<PhoneDTO> getPhones()
     {
         return phones;
     }
 
-    public void setPhones(List<Phone> phones)
+    public void setPhones(List<PhoneDTO> phones)
     {
         this.phones = phones;
     }

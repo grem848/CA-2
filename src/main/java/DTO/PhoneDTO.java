@@ -1,25 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DTO;
 
-/**
- *
- * @author mohammahomarhariri
- */
+import entity.Phone;
+
+
 public class PhoneDTO {
     
     private Long id;
     private String phone;
     private String description;
 
-    public PhoneDTO(String phone, String description) {
-        this.phone = phone;
-        this.description = description;
+    public PhoneDTO(Phone p) {
+        this.phone = p.getNumber();
+        this.description = p.getDescription();
     }
-
+    
+    public PhoneDTO()
+    {
+    }
+    
     public Long getId() {
         return id;
     }

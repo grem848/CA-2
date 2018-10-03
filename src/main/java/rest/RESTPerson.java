@@ -70,7 +70,7 @@ public class RESTPerson
     @GET
     @Path("complete/contactinfo/{id}")   
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonContactInfoJson(@PathParam("id") String id)
+    public Response getPersonContactInfoJson(@PathParam("id") long id)
     {
         String json = gson.toJson(fp.getPerson(id));
 

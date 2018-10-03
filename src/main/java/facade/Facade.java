@@ -32,7 +32,7 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address.street, p.address.additionalInfo, p.address.cityInfo.city, p.address.cityInfo.zip) from Person p where p.id = :id", PersonDTO.class);
+            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p) from Person p where p.id = :id", PersonDTO.class);
             query.setParameter("id", id);
             p = query.getSingleResult();
             em.getTransaction().commit();
@@ -53,7 +53,7 @@ public class Facade
         {
             em.getTransaction().begin();
 //            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address) from Person p", PersonDTO.class).getResultList();
-            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address.street, p.address.additionalInfo, p.address.cityInfo.city, p.address.cityInfo.zip) from Person p", PersonDTO.class).getResultList();
+            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p) from Person p", PersonDTO.class).getResultList();
 
             em.getTransaction().commit();
             return persons;
@@ -72,7 +72,8 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName) from Person p", PersonDTO.class).getResultList();
+            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p) from Person p", PersonDTO.class).getResultList();
+//            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName) from Person p", PersonDTO.class).getResultList();
 
             em.getTransaction().commit();
             return persons;
@@ -91,7 +92,7 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName) from Person p where p.id = :id", PersonDTO.class);
+            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p) from Person p where p.id = :id", PersonDTO.class);
             query.setParameter("id", id);
             p = query.getSingleResult();
             em.getTransaction().commit();
