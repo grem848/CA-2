@@ -64,9 +64,6 @@ public class main
         p6.setAddress(a1);
         
         Phone phone = new Phone("911", "Sound of da police");
-        List<Phone> phones = new ArrayList<>();
-        phone.setPerson(p6);
-        p6.setPhones(phones);
         p6.addPhone(phone);
         
         System.out.println(p6.getPhones());
