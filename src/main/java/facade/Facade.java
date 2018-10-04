@@ -3,6 +3,7 @@ package facade;
 import DTO.ContactInfo;
 import DTO.PersonDTO;
 import entity.Address;
+import entity.CityInfo;
 import entity.Person;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -107,10 +108,22 @@ public class Facade
     {
         EntityManager em = getEntityManager();
 
+        CityInfo cityInfo = null;
+        CityInfo cityInfo2 = p.getAddress().getCityInfo();
+        p.getAddress().setCityInfo(null);
+        System.out.println(p.getAddress().getCityInfo());
         try
         {
             em.getTransaction().begin();
             em.persist(p);
+            
+            Query query = em.createQuery("select p from CityInfo p where p.zip = :zip", CityInfo.class);
+            query.setParameter("zip", cityInfo2.getZip());
+            cityInfo = (CityInfo) query.getSingleResult();
+
+            Query query2 = em.createNativeQuery("UPDATE ca2.address SET CITYINFO_ID= " + cityInfo.getId() + " WHERE ID=" + p.getAddress().getId());
+            query2.executeUpdate();
+            
             em.getTransaction().commit();
             return p;
         } finally
