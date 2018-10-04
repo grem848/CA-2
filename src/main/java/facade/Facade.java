@@ -1,5 +1,6 @@
 package facade;
 
+import DTO.ContactInfo;
 import DTO.PersonDTO;
 import entity.Person;
 import java.util.List;
@@ -23,7 +24,7 @@ public class Facade
         return emf.createEntityManager();
     }
 
-    public PersonDTO getPerson(Person person)
+    public PersonDTO getPerson(long id)
     {
         EntityManager em = getEntityManager();
 
@@ -32,8 +33,8 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address) from Person p where p.id = :id", PersonDTO.class);
-            query.setParameter("id", person.getId());
+            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p) from Person p where p.id = :id", PersonDTO.class);
+            query.setParameter("id", id);
             p = query.getSingleResult();
             em.getTransaction().commit();
             return p;
@@ -42,7 +43,6 @@ public class Facade
             em.close();
         }
     }
-   
 
     public List<PersonDTO> getAllPersons()
     {
@@ -53,8 +53,26 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address) from Person p", PersonDTO.class).getResultList();
-//            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address, p.address.street, p.address.additionalInfo) from Person p", PersonDTO.class).getResultList();
+            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p) from Person p", PersonDTO.class).getResultList();
+
+            em.getTransaction().commit();
+            return persons;
+        } finally
+        {
+            em.close();
+        }
+    }
+
+    public List<ContactInfo> getAllPersonsContactInfo()
+    {
+        EntityManager em = getEntityManager();
+
+        List<ContactInfo> persons = null;
+
+        try
+        {
+            em.getTransaction().begin();
+            persons = em.createQuery("SELECT NEW DTO.ContactInfo(p) from Person p", ContactInfo.class).getResultList();
 
             em.getTransaction().commit();
             return persons;
@@ -64,19 +82,20 @@ public class Facade
         }
     }
     
-    public List<PersonDTO> getAllPersonsContactInfo()
+        public ContactInfo getPersonContactInfo(long id)
     {
         EntityManager em = getEntityManager();
 
-        List<PersonDTO> persons = null;
+        ContactInfo p = null;
 
         try
         {
             em.getTransaction().begin();
-            persons = em.createQuery("SELECT NEW DTO.PersonDTO(p.id, p.email, p.firstName, p.lastName, p.address) from Person p", PersonDTO.class).getResultList();
-
+            TypedQuery<ContactInfo> query = em.createQuery("Select new DTO.ContactInfo(p) from Person p where p.id = :id", ContactInfo.class);
+            query.setParameter("id", id);
+            p = query.getSingleResult();
             em.getTransaction().commit();
-            return persons;
+            return p;
         } finally
         {
             em.close();
@@ -99,27 +118,54 @@ public class Facade
         }
     }
 
-    public Person deletePerson(Person person)
-    {
-        EntityManager em = getEntityManager();
-
-        try
-        {
-            em.getTransaction().begin();
-            Query query = em.createQuery("select p from Person p where p.id = :id", Person.class);
-            query.setParameter("id", person.getId());
-            Person p = (Person) query.getSingleResult();
-            if (p != null)
-            {
-                em.remove(p);
-            }
-            em.getTransaction().commit();
-            return p;
-        } finally
-        {
-            em.close();
-        }
-    }
+//    public PersonDTO deletePerson(long id)
+//    {
+//        EntityManager em = getEntityManager();
+//        
+//        PersonDTO p = null;
+//
+//        try
+//        {
+//            em.getTransaction().begin();
+//            TypedQuery<PersonDTO> query = em.createQuery("select p from Person p where p.id = :id", PersonDTO.class);
+//            query.setParameter("id", id);
+//            p = query.getSingleResult();
+//            if (p != null)
+//            {
+//                em.remove(p);
+//            }
+//            em.getTransaction().commit();
+//            return p;
+//        } finally
+//        {
+//            em.close();
+//        }
+//    }
+//    
+//    public Person deletePerson(long id)
+//    {
+//        EntityManager em = emf.createEntityManager();
+//
+//        try
+//        {
+//            em.getTransaction().begin();
+//            Query query = em.createQuery("select p from Person p where p.id = :id", Person.class);
+//            Query query2 = em.createQuery("select p from Address p where p.id = :id", Person.class);
+//            Query query3 = em.createQuery("select p from Person p where p.id = :id", Person.class);
+//            query.setParameter("id", id);
+//            Person p = (Person) query.getSingleResult();
+//            
+//            if (p != null)
+//            {
+//                em.remove(p);
+//            }
+//            em.getTransaction().commit();
+//            return p;
+//        } finally
+//        {
+//            em.close();
+//        }
+//    }
 
     public Person editPerson(Person person)
     {

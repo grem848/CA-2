@@ -2,7 +2,6 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -26,14 +25,14 @@ public class Person implements Serializable
     private String firstName;
     private String lastName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Address address;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
-    private transient List<Phone> phones = new ArrayList<>();
+    private List<Phone> phones = new ArrayList<>();
 
-    @ManyToMany
-    private List<Hobby> hobbies;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    private List<Hobby> hobbies = new ArrayList<>();
 
     public Person()
     {
@@ -161,7 +160,9 @@ public class Person implements Serializable
     @Override
     public String toString()
     {
-        return "entity.Person[ id=" + id + " ]";
+        return "Person{" + "id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + '}';
     }
+
+
 
 }

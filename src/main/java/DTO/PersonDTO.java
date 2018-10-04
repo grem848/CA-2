@@ -2,8 +2,11 @@ package DTO;
 
 import entity.Address;
 import entity.Hobby;
+import entity.Person;
 import entity.Phone;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PersonDTO
 {
@@ -14,11 +17,13 @@ public class PersonDTO
     private String firstName;
     private String lastName;
 
-    private Address address;
+    private AddressDTO address;
     private String addressStreet;
     private String addressAddInfo;
+    private String cityInfoCity;
+    private String cityInfoZip;
 
-    private List<Phone> phones;
+    private List<PhoneDTO> phones = new ArrayList();
 
     private List<Hobby> hobbies;
 
@@ -26,36 +31,39 @@ public class PersonDTO
     {
     }
 
-    public PersonDTO(Long id, String email, String firstName, String lastName, Address address, String addressStreet, String addressAddInfo)
+    public PersonDTO(Person p)
     {
-        this.id = id;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.addressStreet = addressStreet;
-        this.addressAddInfo = addressAddInfo;
-    }
-    
-    public PersonDTO(Long id, String email, String firstName, String lastName, Address address)
-    {
-        this.id = id;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-    }
-    
-    
-    
-    public PersonDTO(String email, String firstName, String lastName, Address address)
-    {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
+        this.id = p.getId();
+        this.email = p.getEmail();
+        this.firstName = p.getFirstName();
+        this.lastName = p.getLastName();
+        this.address = (new AddressDTO (p.getAddress()));
+        for (Phone phone : p.getPhones())
+        {
+            phones.add(new PhoneDTO(phone));
+        }
     }
 
+    public String getCityInfoCity()
+    {
+        return cityInfoCity;
+    }
+
+    public void setCityInfoCity(String cityInfoCity)
+    {
+        this.cityInfoCity = cityInfoCity;
+    }
+
+    public String getCityInfoZip()
+    {
+        return cityInfoZip;
+    }
+
+    public void setCityInfoZip(String cityInfoZip)
+    {
+        this.cityInfoZip = cityInfoZip;
+    }
+    
     public String getAddressStreet()
     {
         return addressStreet;
@@ -75,8 +83,6 @@ public class PersonDTO
     {
         this.addressAddInfo = addressAddInfo;
     }
-
-    
     
     public Long getId()
     {
@@ -118,22 +124,22 @@ public class PersonDTO
         this.lastName = lastName;
     }
 
-    public Address getAddress()
+    public AddressDTO getAddress()
     {
         return address;
     }
 
-    public void setAddress(Address address)
+    public void setAddress(AddressDTO address)
     {
         this.address = address;
     }
 
-    public List<Phone> getPhones()
+    public List<PhoneDTO> getPhones()
     {
         return phones;
     }
 
-    public void setPhones(List<Phone> phones)
+    public void setPhones(List<PhoneDTO> phones)
     {
         this.phones = phones;
     }
@@ -151,7 +157,91 @@ public class PersonDTO
     @Override
     public String toString()
     {
-        return "PersonDTO{" + "id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", phones=" + phones + ", hobbies=" + hobbies + '}' + "\n";
+        return "PersonDTO{" + "id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", addressStreet=" + addressStreet + ", addressAddInfo=" + addressAddInfo + ", cityInfoCity=" + cityInfoCity + ", cityInfoZip=" + cityInfoZip + ", phones=" + phones + ", hobbies=" + hobbies + '}' + "\n";
     }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.email);
+        hash = 89 * hash + Objects.hashCode(this.firstName);
+        hash = 89 * hash + Objects.hashCode(this.lastName);
+        hash = 89 * hash + Objects.hashCode(this.address);
+        hash = 89 * hash + Objects.hashCode(this.addressStreet);
+        hash = 89 * hash + Objects.hashCode(this.addressAddInfo);
+        hash = 89 * hash + Objects.hashCode(this.cityInfoCity);
+        hash = 89 * hash + Objects.hashCode(this.cityInfoZip);
+        hash = 89 * hash + Objects.hashCode(this.phones);
+        hash = 89 * hash + Objects.hashCode(this.hobbies);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final PersonDTO other = (PersonDTO) obj;
+        if (!Objects.equals(this.email, other.email))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.firstName, other.firstName))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.lastName, other.lastName))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.addressStreet, other.addressStreet))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.addressAddInfo, other.addressAddInfo))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.cityInfoCity, other.cityInfoCity))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.cityInfoZip, other.cityInfoZip))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.address, other.address))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.phones, other.phones))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.hobbies, other.hobbies))
+        {
+            return false;
+        }
+        return true;
+    }
+
+
+
 
 }
