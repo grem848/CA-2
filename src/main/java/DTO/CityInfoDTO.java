@@ -1,7 +1,6 @@
 package DTO;
 
-import entity.Address;
-import java.util.Collection;
+import entity.CityInfo;
 
 public class CityInfoDTO
 {
@@ -9,18 +8,15 @@ public class CityInfoDTO
     private Long id;
     private String zip;
     private String city;
-    private Collection<Address> addresses;
 
     public CityInfoDTO()
     {
     }
 
-    public CityInfoDTO(Long id, String zip, String city, Collection<Address> addresses)
+    public CityInfoDTO(CityInfo cityInfo)
     {
-        this.id = id;
-        this.zip = zip;
-        this.city = city;
-        this.addresses = addresses;
+        this.zip = cityInfo.getZip();
+        this.city = cityInfo.getCity();
     }
 
     public Long getId()
@@ -53,14 +49,11 @@ public class CityInfoDTO
         this.city = city;
     }
 
-    public Collection<Address> getAddresses()
+    @Override
+    public String toString()
     {
-        return addresses;
+        return "CityInfoDTO{" + "id=" + id + ", zip=" + zip + ", city=" + city + '}';
     }
 
-    public void setAddresses(Collection<Address> addresses)
-    {
-        this.addresses = addresses;
-    }
-
+    
 }

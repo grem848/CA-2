@@ -2,9 +2,9 @@ package facade;
 
 import DTO.ContactInfo;
 import DTO.PersonDTO;
-import entity.Address;
 import entity.CityInfo;
 import entity.Person;
+import entity.Phone;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -83,8 +83,8 @@ public class Facade
             em.close();
         }
     }
-    
-        public ContactInfo getPersonContactInfo(long id)
+
+    public ContactInfo getPersonContactInfo(long id)
     {
         EntityManager em = getEntityManager();
 
@@ -109,21 +109,29 @@ public class Facade
         EntityManager em = getEntityManager();
 
         CityInfo cityInfo = null;
-        CityInfo cityInfo2 = p.getAddress().getCityInfo();
-        p.getAddress().setCityInfo(null);
-        System.out.println(p.getAddress().getCityInfo());
         try
         {
+            CityInfo cityInfo2 = p.getAddress().getCityInfo();
+            p.getAddress().setCityInfo(null);
+
             em.getTransaction().begin();
             em.persist(p);
-            
+
             Query query = em.createQuery("select p from CityInfo p where p.zip = :zip", CityInfo.class);
             query.setParameter("zip", cityInfo2.getZip());
             cityInfo = (CityInfo) query.getSingleResult();
 
             Query query2 = em.createNativeQuery("UPDATE ca2.address SET CITYINFO_ID= " + cityInfo.getId() + " WHERE ID=" + p.getAddress().getId());
             query2.executeUpdate();
-            
+
+            List<Phone> plist = p.getPhones();
+            for (Phone phone : plist)
+            {
+                Query query3 = em.createNativeQuery("UPDATE ca2.phone SET PERSON_ID=" + p.getId() + " WHERE ID=" + phone.getId());
+                query3.executeUpdate();
+
+            }
+
             em.getTransaction().commit();
             return p;
         } finally
@@ -132,6 +140,50 @@ public class Facade
         }
     }
 
+    public Person editPerson(Person person)
+    {
+        EntityManager em = getEntityManager();
+
+        try
+        {
+            em.getTransaction().begin();
+            Query query = em.createQuery("select p from Person p where p.id = :id", Person.class);
+            query.setParameter("id", person.getId());
+            Person p = (Person) query.getSingleResult();
+            if (p != null)
+            {
+                Query query2 = em.createNativeQuery("UPDATE ca2.person SET ADDRESS_ID=" + p.getAddress().getId() + " WHERE ID=" + p.getId());
+                p = person;
+                p.getAddress().setCityInfo(null);
+                em.merge(p);
+                query2.executeUpdate();
+            }
+            em.getTransaction().commit();
+            return p;
+        } finally
+        {
+            em.close();
+        }
+    }
+
+    public List<CityInfo> getAllZipCodes()
+    {
+        EntityManager em = getEntityManager();
+
+        List<CityInfo> ciList = null;
+
+        try
+        {
+            em.getTransaction().begin();
+            ciList = em.createQuery("SELECT NEW DTO.CityInfoDTO(p) from CityInfo p", CityInfo.class).getResultList();
+
+            em.getTransaction().commit();
+            return ciList;
+        } finally
+        {
+            em.close();
+        }
+    }
 //    public PersonDTO deletePerson(long id)
 //    {
 //        EntityManager em = getEntityManager();
@@ -180,29 +232,4 @@ public class Facade
 //            em.close();
 //        }
 //    }
-
-    public Person editPerson(Person person)
-    {
-        EntityManager em = getEntityManager();
-
-        try
-        {
-            em.getTransaction().begin();
-            Query query = em.createQuery("select p from Person p where p.id = :id", Person.class);
-            query.setParameter("id", person.getId());
-            Person p = (Person) query.getSingleResult();
-            if (p != null)
-            {
-                Query query2 = em.createNativeQuery("UPDATE ca2.person SET ADDRESS_ID=" + p.getAddress().getId() + " WHERE ID=" + p.getId());
-                p = person;
-                em.merge(p);
-                query2.executeUpdate();
-            }
-            em.getTransaction().commit();
-            return p;
-        } finally
-        {
-            em.close();
-        }
-    }
 }
