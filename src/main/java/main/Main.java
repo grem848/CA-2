@@ -21,9 +21,7 @@ public class Main
         Address a1 = new Address("Road 1", "Nice road yo");
         Address a2 = new Address("Road 2", "New road");
 
-         // Persistence.generateSchema("pu", null); // STEP 1
-        
-        
+        // Persistence.generateSchema("pu", null); // STEP 1
 // STEP 2 
 //        em.getTransaction().begin(); 
 //        a1.setCityInfo(c1);
@@ -40,7 +38,6 @@ public class Main
 //        em.close();
 // STEP 2
 // STEP 3
-
         System.out.println("Get all persons in the system: \n" + facade.getAllPersons());
 
         System.out.println("---");
@@ -71,12 +68,14 @@ public class Main
         System.out.println("Get all persons contactinfo in the system: \n" + facade.getAllPersonsContactInfo());
 
         System.out.println("---");
-        
-        Person p7 = new Person("deletenson@mail.dk", "Egon", "Deletenson");
-        int i = 5;
+
+        Person p7 = new Person("deletenson@mail.dk", "Ole", "Deletenson");
+        p6.setAddress(a1);
+        a1.addPerson(p6);
+        int i = 7;
         long l = i;
         p7.setId(l);
-        
+
         System.out.println("Edit person" + "\n" + facade.editPerson(p7));
 
 // STEP 3
