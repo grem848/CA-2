@@ -82,18 +82,18 @@ public class RESTPerson
         return Response.ok(json).build();
     }
     
-//    @POST
-//    @Path("create")
-//    @Consumes("application/json")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response addPersonJson(String json) // {"firstName": "Post","lastName": "Man","email": "somePost","address": {"street":"someStreet", "additionalInfo":"some"}}
-//    {
-//        Person person = gson.fromJson(json, Person.class);
-//
-//        fp.addPerson(person);
-//
-//        return Response.ok(json).entity(json).build();
-//
-//    }
+    @POST
+    @Path("create")
+    @Consumes("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addPersonJson(String json) // {"firstName": "Post","lastName": "Man","email": "somePost","address": {"street":"someStreet", "additionalInfo":"some"}}
+    {
+        Person person = gson.fromJson(json, Person.class);
+
+        fp.addPerson(person);
+
+        return Response.ok(json).entity(json).build();
+
+    }
 
 }
