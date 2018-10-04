@@ -6,6 +6,7 @@ import entity.Person;
 import entity.Phone;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PersonDTO
 {
@@ -157,6 +158,87 @@ public class PersonDTO
     public String toString()
     {
         return "PersonDTO{" + "id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", addressStreet=" + addressStreet + ", addressAddInfo=" + addressAddInfo + ", cityInfoCity=" + cityInfoCity + ", cityInfoZip=" + cityInfoZip + ", phones=" + phones + ", hobbies=" + hobbies + '}' + "\n";
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.email);
+        hash = 89 * hash + Objects.hashCode(this.firstName);
+        hash = 89 * hash + Objects.hashCode(this.lastName);
+        hash = 89 * hash + Objects.hashCode(this.address);
+        hash = 89 * hash + Objects.hashCode(this.addressStreet);
+        hash = 89 * hash + Objects.hashCode(this.addressAddInfo);
+        hash = 89 * hash + Objects.hashCode(this.cityInfoCity);
+        hash = 89 * hash + Objects.hashCode(this.cityInfoZip);
+        hash = 89 * hash + Objects.hashCode(this.phones);
+        hash = 89 * hash + Objects.hashCode(this.hobbies);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final PersonDTO other = (PersonDTO) obj;
+        if (!Objects.equals(this.email, other.email))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.firstName, other.firstName))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.lastName, other.lastName))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.addressStreet, other.addressStreet))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.addressAddInfo, other.addressAddInfo))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.cityInfoCity, other.cityInfoCity))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.cityInfoZip, other.cityInfoZip))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.address, other.address))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.phones, other.phones))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.hobbies, other.hobbies))
+        {
+            return false;
+        }
+        return true;
     }
 
 

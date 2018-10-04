@@ -118,7 +118,7 @@ public class Facade
         }
     }
 
-//    public PersonDTO deletePerson(Person person)
+//    public PersonDTO deletePerson(long id)
 //    {
 //        EntityManager em = getEntityManager();
 //        
@@ -128,7 +128,7 @@ public class Facade
 //        {
 //            em.getTransaction().begin();
 //            TypedQuery<PersonDTO> query = em.createQuery("select p from Person p where p.id = :id", PersonDTO.class);
-//            query.setParameter("id", person.getId());
+//            query.setParameter("id", id);
 //            p = query.getSingleResult();
 //            if (p != null)
 //            {
@@ -141,8 +141,8 @@ public class Facade
 //            em.close();
 //        }
 //    }
-    
-//    public Person deletePerson(Person person)
+//    
+//    public Person deletePerson(long id)
 //    {
 //        EntityManager em = emf.createEntityManager();
 //
@@ -150,8 +150,11 @@ public class Facade
 //        {
 //            em.getTransaction().begin();
 //            Query query = em.createQuery("select p from Person p where p.id = :id", Person.class);
-//            query.setParameter("id", person.getId());
+//            Query query2 = em.createQuery("select p from Address p where p.id = :id", Person.class);
+//            Query query3 = em.createQuery("select p from Person p where p.id = :id", Person.class);
+//            query.setParameter("id", id);
 //            Person p = (Person) query.getSingleResult();
+//            
 //            if (p != null)
 //            {
 //                em.remove(p);

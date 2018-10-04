@@ -71,6 +71,13 @@ public class Main
         System.out.println("Get all persons contactinfo in the system: \n" + facade.getAllPersonsContactInfo());
 
         System.out.println("---");
+        
+        Person p7 = new Person("deletenson@mail.dk", "Egon", "Deletenson");
+        int i = 5;
+        long l = i;
+        p7.setId(l);
+        
+        System.out.println("Edit person" + "\n" + facade.editPerson(p7));
 
 // STEP 3
     }
