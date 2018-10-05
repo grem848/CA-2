@@ -82,6 +82,23 @@ public class RESTPerson
         return Response.ok(json).build();
     }
     
+    @GET
+    @Path("complete/contactinfo/{number}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPersonalContactPhoneJson(@PathParam("number") String number){
+        String json = gson.toJson(fp.getPersonInfoWithPhone(number));
+        return Response.ok(json).build();
+    }
+    
+    @GET
+    @Path("complete/{zip}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPersonsZipJson(@PathParam("zip")String zip){
+        String json = gson.toJson(fp.getPersonsInCity(zip));
+        return Response.ok(json).build();
+        
+    }
+    
 //    @POST
 //    @Path("create")
 //    @Consumes("application/json")

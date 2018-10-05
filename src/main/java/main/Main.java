@@ -21,23 +21,23 @@ public class Main
         Address a1 = new Address("Road 1", "Nice road yo");
         Address a2 = new Address("Road 2", "New road");
 
-         // Persistence.generateSchema("pu", null); // STEP 1
+//        Persistence.generateSchema("pu", null); // STEP 1
         
         
 // STEP 2 
-//        em.getTransaction().begin(); 
-//        a1.setCityInfo(c1);
-//        a2.setCityInfo(c1);
-//        
-//        Person p1 = new Person("test1@mail.dk", "Brian", "Larsson");
-//        p1.setAddress(a2);
-//        em.persist(p1);
-//        Person p2 = new Person("test1@mail.dk", "Kurt", "Larsson");
-//        p2.setAddress(a1);
-//        em.persist(p2);
-//
-//        em.getTransaction().commit();
-//        em.close();
+        em.getTransaction().begin(); 
+        a1.setCityInfo(c1);
+        a2.setCityInfo(c1);
+        
+        Person p1 = new Person("test1@mail.dk", "Brian", "Larsson");
+        p1.setAddress(a2);
+        em.persist(p1);
+        Person p2 = new Person("test1@mail.dk", "Kurt", "Larsson");
+        p2.setAddress(a1);
+        em.persist(p2);
+
+        em.getTransaction().commit();
+        em.close();
 // STEP 2
 // STEP 3
 
@@ -76,8 +76,10 @@ public class Main
         int i = 5;
         long l = i;
         p7.setId(l);
-        
-        System.out.println("Edit person" + "\n" + facade.editPerson(p7));
+        System.out.println(facade.getPersonInfoWithPhone("911"));
+        System.out.println("FIND PEOPLE BY CITY______________-");
+        System.out.println(facade.getPersonsInCity("2800"));
+        //system.out.println("Edit person" + "\n" + facade.editPerson(p7));
 
 // STEP 3
     }
