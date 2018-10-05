@@ -125,8 +125,8 @@ public class RESTPerson
     public Response getPersonByEmail(@PathParam("email") String email) {     
        
        
-       PersonDTO json = null;
-       json = fp.getPerson(email);
+       ContactInfo json = null;
+       json = fp.getPersonContactInfo(email);
    
        
        if( json != null){
