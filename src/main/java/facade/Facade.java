@@ -37,7 +37,13 @@ public class Facade
             em.getTransaction().begin();
             TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p) from Person p where p.email = :email", PersonDTO.class);
             query.setParameter("email", email);
-            p = query.getSingleResult();
+            
+            if(query.getResultList().size() == 0){
+                return p;
+            }else {
+                p = query.getSingleResult();
+            }
+            
             em.getTransaction().commit();
             return p;
         } finally
@@ -104,7 +110,7 @@ public class Facade
         }
     }
 
-    public Person addPerson(Person p)
+    public PersonDTO addPerson(Person p)
     {
         EntityManager em = getEntityManager();
 
@@ -119,9 +125,9 @@ public class Facade
             p.setPhones(plist);
             em.getTransaction().begin();
             em.persist(p);
-
+            
             em.getTransaction().commit();
-            return p;
+            return getPerson(p.getEmail());
         } finally
         {
             em.close();

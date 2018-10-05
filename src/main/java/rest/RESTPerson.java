@@ -7,6 +7,8 @@ import com.google.gson.GsonBuilder;
 import facade.Facade;
 import java.util.Date;
 import java.util.List;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.Persistence;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -72,28 +74,65 @@ public class RESTPerson
     }
 
     @GET
-    @Path("complete/contactinfo/{email}")
+    @Path("complete/contactinfo/{email}")    
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonContactInfoJson(@PathParam("email") String email)
-    {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getPersonByEmail(@PathParam("email") String email) {     
+        
+                JsonObject jsonObject = Json.createObjectBuilder()
+                .add("ErrorMessage", "This email is invalid")
+                .build();
+        
+        PersonDTO person = fp.getPerson(email);
+        if(person != null){
+            
+      return Response
+                .status(200)
+                .entity(gson.toJson(person))
+                .type(MediaType.APPLICATION_JSON)
+                .build();
+        } else {
+                       
+            return Response
+                    .status(200)
+                    .entity(gson.toJson(jsonObject))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();    
 
-        String json = gson.toJson(fp.getPersonContactInfo(email));
-
-        return Response.ok(json).build();
+        }
+       
     }
-
+    
     @POST
     @Path("create")
-    @Consumes("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addPersonJson(String json)
+    public Response addPersonJson(String json) // {"firstName": "Post","lastName": "Man","email": "somePost","address": {"street":"someStreet", "additionalInfo":"some"}}
     {
+        JsonObject jsonObject = Json.createObjectBuilder()
+                .add("ErrorMessage", "This email is already in use")
+                .build();
+            
         Person person = gson.fromJson(json, Person.class);
-
-        fp.addPerson(person);
-
-        return Response.ok(json).entity(json).build();
-
+        PersonDTO personDTO = fp.getPerson(person.getEmail());
+        System.out.println(personDTO);
+        
+        if (personDTO == null) {
+            System.out.println(person);
+                PersonDTO p = fp.addPerson(person);
+                return Response
+                    .status(200)
+                    .entity(gson.toJson(p))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        } else {
+            
+                return Response
+                    .status(200)
+                    .entity(gson.toJson(jsonObject))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();       
+        }
     }
 
     @PUT
