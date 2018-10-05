@@ -8,6 +8,7 @@ import entity.Phone;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -101,10 +102,17 @@ public class Facade
             em.getTransaction().begin();
             TypedQuery<ContactInfo> query = em.createQuery("Select new DTO.ContactInfo(p) from Person p where p.email = :email", ContactInfo.class);
             query.setParameter("email", email);
-            p = query.getSingleResult();
+                       
+            if(query.getResultList().size() == 0){
+                return p;
+            }else {
+                p = query.getSingleResult();
+            }
             em.getTransaction().commit();
             return p;
-        } finally
+        } catch(NoResultException ex) {
+            return null;
+        }finally
         {
             em.close();
         }
