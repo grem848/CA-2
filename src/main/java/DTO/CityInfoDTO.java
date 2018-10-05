@@ -1,21 +1,36 @@
 package DTO;
 
-import entity.CityInfo;
+import entity.Address;
+import java.util.Collection;
 
 public class CityInfoDTO
 {
 
+    private Long id;
     private String zip;
     private String city;
+    private Collection<Address> addresses;
 
     public CityInfoDTO()
     {
     }
 
-    public CityInfoDTO(CityInfo cityInfo)
+    public CityInfoDTO(Long id, String zip, String city, Collection<Address> addresses)
     {
-        this.zip = cityInfo.getZip();
-        this.city = cityInfo.getCity();
+        this.id = id;
+        this.zip = zip;
+        this.city = city;
+        this.addresses = addresses;
+    }
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
     }
 
     public String getZip()
@@ -38,11 +53,14 @@ public class CityInfoDTO
         this.city = city;
     }
 
-    @Override
-    public String toString()
+    public Collection<Address> getAddresses()
     {
-        return "CityInfoDTO{" + "zip=" + zip + ", city=" + city + '}';
+        return addresses;
     }
 
-    
+    public void setAddresses(Collection<Address> addresses)
+    {
+        this.addresses = addresses;
+    }
+
 }
