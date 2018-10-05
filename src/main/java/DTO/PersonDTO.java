@@ -11,6 +11,8 @@ import java.util.Objects;
 public class PersonDTO
 {
 
+    private Long id;
+
     private String email;
     private String firstName;
     private String lastName;
@@ -31,6 +33,7 @@ public class PersonDTO
 
     public PersonDTO(Person p)
     {
+        this.id = p.getId();
         this.email = p.getEmail();
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
@@ -81,6 +84,15 @@ public class PersonDTO
         this.addressAddInfo = addressAddInfo;
     }
     
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
     public String getEmail()
     {
@@ -143,19 +155,26 @@ public class PersonDTO
     }
 
     @Override
+    public String toString()
+    {
+        return "PersonDTO{" + "id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", addressStreet=" + addressStreet + ", addressAddInfo=" + addressAddInfo + ", cityInfoCity=" + cityInfoCity + ", cityInfoZip=" + cityInfoZip + ", phones=" + phones + ", hobbies=" + hobbies + '}' + "\n";
+    }
+
+    @Override
     public int hashCode()
     {
-        int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.email);
-        hash = 97 * hash + Objects.hashCode(this.firstName);
-        hash = 97 * hash + Objects.hashCode(this.lastName);
-        hash = 97 * hash + Objects.hashCode(this.address);
-        hash = 97 * hash + Objects.hashCode(this.addressStreet);
-        hash = 97 * hash + Objects.hashCode(this.addressAddInfo);
-        hash = 97 * hash + Objects.hashCode(this.cityInfoCity);
-        hash = 97 * hash + Objects.hashCode(this.cityInfoZip);
-        hash = 97 * hash + Objects.hashCode(this.phones);
-        hash = 97 * hash + Objects.hashCode(this.hobbies);
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.email);
+        hash = 89 * hash + Objects.hashCode(this.firstName);
+        hash = 89 * hash + Objects.hashCode(this.lastName);
+        hash = 89 * hash + Objects.hashCode(this.address);
+        hash = 89 * hash + Objects.hashCode(this.addressStreet);
+        hash = 89 * hash + Objects.hashCode(this.addressAddInfo);
+        hash = 89 * hash + Objects.hashCode(this.cityInfoCity);
+        hash = 89 * hash + Objects.hashCode(this.cityInfoZip);
+        hash = 89 * hash + Objects.hashCode(this.phones);
+        hash = 89 * hash + Objects.hashCode(this.hobbies);
         return hash;
     }
 
@@ -203,6 +222,10 @@ public class PersonDTO
         {
             return false;
         }
+        if (!Objects.equals(this.id, other.id))
+        {
+            return false;
+        }
         if (!Objects.equals(this.address, other.address))
         {
             return false;
@@ -218,11 +241,7 @@ public class PersonDTO
         return true;
     }
 
-    @Override
-    public String toString()
-    {
-        return "PersonDTO{" + "email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", addressStreet=" + addressStreet + ", addressAddInfo=" + addressAddInfo + ", cityInfoCity=" + cityInfoCity + ", cityInfoZip=" + cityInfoZip + '}';
-    }
+
 
 
 }

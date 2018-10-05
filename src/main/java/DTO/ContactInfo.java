@@ -9,12 +9,14 @@ import java.util.List;
 
 public class ContactInfo {
     
-    private String email;
+    private Long id;
     private String name;
+    private String email;
     
     private List<PhoneDTO> phones = new ArrayList();
 
     public ContactInfo(Person p) {
+        this.id = p.getId();
         this.name = p.getFirstName() + " " + p.getLastName();
         this.email = p.getEmail();
         
@@ -23,6 +25,13 @@ public class ContactInfo {
         }
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -51,7 +60,8 @@ public class ContactInfo {
     @Override
     public String toString()
     {
-        return "ContactInfo{" + "email=" + email + ", name=" + name + '}';
+        return "ContactInfo{" + "id=" + id + ", name=" + name + ", email=" + email + ", phones=" + phones + '}' + "\n";
     }
+    
     
 }

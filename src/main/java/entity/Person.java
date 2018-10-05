@@ -3,9 +3,10 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -15,16 +16,19 @@ import javax.persistence.OneToMany;
 public class Person implements Serializable
 {
 
+    private static final long serialVersionUID = 1L;
     @Id
-    private String email;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    private String email;
     private String firstName;
     private String lastName;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Address address;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
     private List<Phone> phones = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.PERSIST)
@@ -119,43 +123,34 @@ public class Person implements Serializable
         this.lastName = lastName;
     }
 
-    @Override
-    public boolean equals(Object obj)
+    public Long getId()
     {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (obj == null)
-        {
-            return false;
-        }
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-        final Person other = (Person) obj;
-        if (!Objects.equals(this.email, other.email))
-        {
-            return false;
-        }
-        if (!Objects.equals(this.firstName, other.firstName))
-        {
-            return false;
-        }
-        if (!Objects.equals(this.lastName, other.lastName))
-        {
-            return false;
-        }
-        if (!Objects.equals(this.address, other.address))
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Person))
         {
             return false;
         }
-        if (!Objects.equals(this.phones, other.phones))
-        {
-            return false;
-        }
-        if (!Objects.equals(this.hobbies, other.hobbies))
+        Person other = (Person) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
         {
             return false;
         }
@@ -165,8 +160,9 @@ public class Person implements Serializable
     @Override
     public String toString()
     {
-        return "Person{" + "email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + '}';
+        return "Person{" + "id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + '}';
     }
+
 
 
 }
