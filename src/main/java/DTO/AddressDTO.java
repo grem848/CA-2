@@ -3,6 +3,7 @@ package DTO;
 import entity.Address;
 import entity.Person;
 import java.util.List;
+import java.util.Objects;
 
 public class AddressDTO
 {
@@ -97,6 +98,48 @@ public class AddressDTO
     public void setCityInfo(CityInfoDTO cityInfo)
     {
         this.cityInfo = cityInfo;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AddressDTO other = (AddressDTO) obj;
+        if (!Objects.equals(this.street, other.street)) {
+            return false;
+        }
+        if (!Objects.equals(this.additionalInfo, other.additionalInfo)) {
+            return false;
+        }
+        if (!Objects.equals(this.cityInfoCity, other.cityInfoCity)) {
+            return false;
+        }
+        if (!Objects.equals(this.cityInfoZip, other.cityInfoZip)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.persons, other.persons)) {
+            return false;
+        }
+        if (!Objects.equals(this.cityInfo, other.cityInfo)) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -4,6 +4,8 @@ import DTO.ContactInfo;
 import DTO.PersonDTO;
 import entity.CityInfo;
 import entity.Person;
+import static entity.Person_.phones;
+
 import entity.Phone;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -45,7 +47,7 @@ public class Facade
             em.close();
         }
     }
-
+ 
     public List<PersonDTO> getAllPersons()
     {
         EntityManager em = getEntityManager();
@@ -64,7 +66,7 @@ public class Facade
             em.close();
         }
     }
-
+ 
     public List<ContactInfo> getAllPersonsContactInfo()
     {
         EntityManager em = getEntityManager();
@@ -103,6 +105,25 @@ public class Facade
             em.close();
         }
     }
+        
+   public ContactInfo getPersonInfoWithPhone(String number){
+       
+       EntityManager em = getEntityManager();
+       
+       ContactInfo p = null;
+       
+       try {
+           em.getTransaction().begin();
+           TypedQuery<ContactInfo> query = em.createQuery("select new DTO.ContactInfo(p) From Person p join p.phones ph where ph.number = :number", ContactInfo.class);
+           query.setParameter("number", number);
+           p = query.getSingleResult();
+           em.getTransaction().commit();
+           return p;
+       }finally{
+           em.close();
+       }
+       
+   }
 
     public Person addPerson(Person p)
     {
@@ -220,4 +241,21 @@ public class Facade
 //            em.close();
 //        }
 //    }
+
+    public List<PersonDTO> getPersonsInCity(String zip){
+          EntityManager em = getEntityManager();
+          
+
+        try
+        {
+            em.getTransaction().begin();
+            TypedQuery<PersonDTO> query = em.createQuery("select new DTO.ContactInfo(p) From Person p join p.address pa join pa.cityInfo pac where pac.zip = :zip", PersonDTO.class);
+            query.setParameter("zip", zip);
+           em.getTransaction().commit();
+                return query.getResultList();
+       }finally{
+           em.close();
+        }
+        
+    }
 }
