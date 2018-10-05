@@ -54,7 +54,7 @@ public class RESTPerson
     @Path("complete/{email}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonJsonFromId(@PathParam("email") String email)
+    public Response getPersonJsonFromEmail(@PathParam("email") String email)
     {
         String json = gson.toJson(fp.getPerson(email));
 
@@ -103,17 +103,17 @@ public class RESTPerson
     public Response editPersonJson(String json)
     {
         Person person = gson.fromJson(json, Person.class);
-        try
-        {
+//        try
+//        {
             fp.editPerson(person);
 
             return Response.ok().entity(json).build();
 
-        } catch (Exception e)
-        {
-            System.out.println(e);
-            return Response.status(Response.Status.NOT_FOUND).entity("{\"status\":\"PERSON NOT FOUND\"}").build();
-        }
+//        } catch (Exception e)
+//        {
+//            System.out.println(e);
+//            return Response.status(Response.Status.NOT_FOUND).entity("{\"status\":\"PERSON NOT FOUND\"}").build();
+//        }
     }
     
     @Path("zipcodes")

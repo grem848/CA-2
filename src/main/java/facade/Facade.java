@@ -2,6 +2,7 @@ package facade;
 
 import DTO.ContactInfo;
 import DTO.PersonDTO;
+import entity.Address;
 import entity.CityInfo;
 import entity.Person;
 import entity.Phone;
@@ -140,11 +141,20 @@ public class Facade
             Person p = (Person) query.getSingleResult();
             if (p != null)
             {
-//                Query query2 = em.createNativeQuery("UPDATE ca2.person SET ADDRESS_ID=" + p.getAddress().getId() + " WHERE ID=" + p.getId());
                 p = person;
-                p.getAddress().setCityInfo(null);
+                
+                p.setAddress(em.find(Person.class, p.getEmail()).getAddress());
+                
+                Query query2 = em.createQuery("select p from Phone p where p.person.email = :email", Phone.class);
+                query2.setParameter("email", person.getEmail());
+                List<Phone> plist = query2.getResultList();
+                for (Phone phone : plist)
+                {
+                    phone.setPerson(p);
+                }
+                p.setPhones(plist);
+
                 em.merge(p);
-//                query2.executeUpdate();
             }
             em.getTransaction().commit();
             return p;
