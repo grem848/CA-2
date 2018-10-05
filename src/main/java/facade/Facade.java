@@ -26,7 +26,7 @@ public class Facade
         return emf.createEntityManager();
     }
 
-    public PersonDTO getPerson(long id)
+    public PersonDTO getPerson(String email)
     {
         EntityManager em = getEntityManager();
 
@@ -35,8 +35,8 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p) from Person p where p.id = :id", PersonDTO.class);
-            query.setParameter("id", id);
+            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p) from Person p where p.email = :email", PersonDTO.class);
+            query.setParameter("email", email);
             p = query.getSingleResult();
             em.getTransaction().commit();
             return p;
@@ -84,7 +84,7 @@ public class Facade
         }
     }
 
-    public ContactInfo getPersonContactInfo(long id)
+    public ContactInfo getPersonContactInfo(String email)
     {
         EntityManager em = getEntityManager();
 
@@ -93,8 +93,8 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            TypedQuery<ContactInfo> query = em.createQuery("Select new DTO.ContactInfo(p) from Person p where p.id = :id", ContactInfo.class);
-            query.setParameter("id", id);
+            TypedQuery<ContactInfo> query = em.createQuery("Select new DTO.ContactInfo(p) from Person p where p.email = :email", ContactInfo.class);
+            query.setParameter("email", email);
             p = query.getSingleResult();
             em.getTransaction().commit();
             return p;
@@ -108,29 +108,17 @@ public class Facade
     {
         EntityManager em = getEntityManager();
 
-        CityInfo cityInfo = null;
         try
         {
-            CityInfo cityInfo2 = p.getAddress().getCityInfo();
-            p.getAddress().setCityInfo(null);
-
-            em.getTransaction().begin();
-            em.persist(p);
-
-            Query query = em.createQuery("select p from CityInfo p where p.zip = :zip", CityInfo.class);
-            query.setParameter("zip", cityInfo2.getZip());
-            cityInfo = (CityInfo) query.getSingleResult();
-
-            Query query2 = em.createNativeQuery("UPDATE ca2.address SET CITYINFO_ID= " + cityInfo.getId() + " WHERE ID=" + p.getAddress().getId());
-            query2.executeUpdate();
-
+            p.getAddress().setCityInfo(em.find(CityInfo.class, p.getAddress().getCityInfo().getZip()));
             List<Phone> plist = p.getPhones();
             for (Phone phone : plist)
             {
-                Query query3 = em.createNativeQuery("UPDATE ca2.phone SET PERSON_ID=" + p.getId() + " WHERE ID=" + phone.getId());
-                query3.executeUpdate();
-
+                phone.setPerson(p);
             }
+            p.setPhones(plist);
+            em.getTransaction().begin();
+            em.persist(p);
 
             em.getTransaction().commit();
             return p;
@@ -147,16 +135,16 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            Query query = em.createQuery("select p from Person p where p.id = :id", Person.class);
-            query.setParameter("id", person.getId());
+            Query query = em.createQuery("select p from Person p where p.email = :email", Person.class);
+            query.setParameter("email", person.getEmail());
             Person p = (Person) query.getSingleResult();
             if (p != null)
             {
-                Query query2 = em.createNativeQuery("UPDATE ca2.person SET ADDRESS_ID=" + p.getAddress().getId() + " WHERE ID=" + p.getId());
+//                Query query2 = em.createNativeQuery("UPDATE ca2.person SET ADDRESS_ID=" + p.getAddress().getId() + " WHERE ID=" + p.getId());
                 p = person;
                 p.getAddress().setCityInfo(null);
                 em.merge(p);
-                query2.executeUpdate();
+//                query2.executeUpdate();
             }
             em.getTransaction().commit();
             return p;

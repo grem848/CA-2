@@ -51,12 +51,12 @@ public class RESTPerson
         return Response.ok(json).build();
     }
 
-    @Path("complete/{id}")
+    @Path("complete/{email}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonJsonFromId(@PathParam("id") long id)
+    public Response getPersonJsonFromId(@PathParam("email") String email)
     {
-        String json = gson.toJson(fp.getPerson(id));
+        String json = gson.toJson(fp.getPerson(email));
 
         return Response.ok(json).build();
     }
@@ -72,12 +72,12 @@ public class RESTPerson
     }
 
     @GET
-    @Path("complete/contactinfo/{id}")
+    @Path("complete/contactinfo/{email}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonContactInfoJson(@PathParam("id") long id)
+    public Response getPersonContactInfoJson(@PathParam("email") String email)
     {
 
-        String json = gson.toJson(fp.getPersonContactInfo(id));
+        String json = gson.toJson(fp.getPersonContactInfo(email));
 
         return Response.ok(json).build();
     }

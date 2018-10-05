@@ -1,7 +1,5 @@
 package main;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import facade.Facade;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -15,7 +13,7 @@ public class Main
         Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
         EntityManager em = facade.getEntityManager();
 
-        // Persistence.generateSchema("pu", null); // STEP 1
+         Persistence.generateSchema("pu", null); // STEP 1
          
 // STEP 2 
 //        CityInfo c1 = new CityInfo("2800", "Lyngby");
@@ -45,7 +43,7 @@ public class Main
 //        System.out.println("Get a person in the system from id: \n" + facade.getPerson(1)); // WORKS IN POSTMAN
 //        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 //        System.out.println(gson.toJson(facade.getPerson(1)));
-          System.out.println(facade.getAllZipCodes());
+//          System.out.println(facade.getAllZipCodes());
 //
 //        System.out.println("---");
 //

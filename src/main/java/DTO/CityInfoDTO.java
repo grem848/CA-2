@@ -5,7 +5,6 @@ import entity.CityInfo;
 public class CityInfoDTO
 {
 
-    private Long id;
     private String zip;
     private String city;
 
@@ -17,16 +16,6 @@ public class CityInfoDTO
     {
         this.zip = cityInfo.getZip();
         this.city = cityInfo.getCity();
-    }
-
-    public Long getId()
-    {
-        return id;
-    }
-
-    public void setId(Long id)
-    {
-        this.id = id;
     }
 
     public String getZip()
@@ -52,7 +41,7 @@ public class CityInfoDTO
     @Override
     public String toString()
     {
-        return "CityInfoDTO{" + "id=" + id + ", zip=" + zip + ", city=" + city + '}';
+        return "CityInfoDTO{" + "zip=" + zip + ", city=" + city + '}';
     }
 
     
