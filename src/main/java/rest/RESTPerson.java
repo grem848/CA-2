@@ -1,12 +1,10 @@
 package rest;
 
-import DTO.*;
 import entity.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import facade.Facade;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Persistence;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -103,21 +101,21 @@ public class RESTPerson
     public Response editPersonJson(String json)
     {
         Person person = gson.fromJson(json, Person.class);
-//        try
-//        {
+        try
+        {
             fp.editPerson(person);
 
             return Response.ok().entity(json).build();
 
-//        } catch (Exception e)
-//        {
-//            System.out.println(e);
-//            return Response.status(Response.Status.NOT_FOUND).entity("{\"status\":\"PERSON NOT FOUND\"}").build();
-//        }
+        } catch (Exception e)
+        {
+            System.out.println(e);
+            return Response.status(Response.Status.NOT_FOUND).entity("{\"status\":\"PERSON NOT FOUND\"}").build();
+        }
     }
-    
-    @Path("zipcodes")
+
     @GET
+    @Path("zipcodes")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getZipcodesJson()
     {
@@ -125,5 +123,35 @@ public class RESTPerson
 
         return Response.ok(json).build();
     }
+
+//    @GET
+//    @Path("complete/{zip}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getPersonsFromZipcodeJson(@PathParam("zip") String zip)
+//    {
+//        String json = gson.toJson(fp.getPersonsInCity(zip));
+//
+//        return Response.ok(json).build();
+//    }
+
+//    @GET
+//    @Path("complete/contactinfo/{number}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getPersonalContactPhoneJson(@PathParam("number") String number)
+//    {
+//        String json = gson.toJson(fp.getPersonInfoWithPhone(number));
+//        return Response.ok(json).build();
+//    }
+//
+//    @GET
+//    @Path("complete/{zip}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getPersonsZipJson(@PathParam("zip") String zip)
+//    {
+//        String json = gson.toJson(fp.getPersonsInCity(zip));
+//
+//        return Response.ok(json).build();
+//
+//    }
 
 }

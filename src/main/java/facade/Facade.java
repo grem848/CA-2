@@ -2,7 +2,6 @@ package facade;
 
 import DTO.ContactInfo;
 import DTO.PersonDTO;
-import entity.Address;
 import entity.CityInfo;
 import entity.Person;
 import entity.Phone;
@@ -142,9 +141,9 @@ public class Facade
             if (p != null)
             {
                 p = person;
-                
+
                 p.setAddress(em.find(Person.class, p.getEmail()).getAddress());
-                
+
                 Query query2 = em.createQuery("select p from Phone p where p.person.email = :email", Phone.class);
                 query2.setParameter("email", person.getEmail());
                 List<Phone> plist = query2.getResultList();
@@ -182,6 +181,48 @@ public class Facade
             em.close();
         }
     }
+
+
+//    public List<PersonDTO> getPersonsInCity(String zip)
+//    {
+//        EntityManager em = getEntityManager();
+//
+//        List<PersonDTO> personsCityList = null;
+//
+//        try
+//        {
+//            em.getTransaction().begin();
+//            personsCityList = em.createQuery("select new DTO.PersonDTO(p) From Person p where p.address.cityInfo.city = :zip", PersonDTO.class).getResultList();
+//
+//            em.getTransaction().commit();
+//            return personsCityList;
+//        } finally
+//        {
+//            em.close();
+//        }
+//    }
+
+//    public ContactInfo getPersonInfoWithPhone(String number)
+//    {
+//
+//        EntityManager em = getEntityManager();
+//
+//        ContactInfo p = null;
+//
+//        try
+//        {
+//            em.getTransaction().begin();
+//            TypedQuery<ContactInfo> query = em.createQuery("select new DTO.ContactInfo(p) From Person p join p.phones ph where ph.number = :number", ContactInfo.class);
+//            query.setParameter("number", number);
+//            p = query.getSingleResult();
+//            em.getTransaction().commit();
+//            return p;
+//        } finally
+//        {
+//            em.close();
+//        }
+//
+//    }
 //    public PersonDTO deletePerson(long id)
 //    {
 //        EntityManager em = getEntityManager();
