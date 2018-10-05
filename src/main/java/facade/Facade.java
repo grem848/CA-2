@@ -2,8 +2,10 @@ package facade;
 
 import DTO.ContactInfo;
 import DTO.PersonDTO;
+import entity.CityInfo;
 import entity.Person;
 import static entity.Person_.phones;
+
 import entity.Phone;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -26,7 +28,7 @@ public class Facade
         return emf.createEntityManager();
     }
 
-    public PersonDTO getPerson(long id)
+    public PersonDTO getPerson(String email)
     {
         EntityManager em = getEntityManager();
 
@@ -35,8 +37,8 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p) from Person p where p.id = :id", PersonDTO.class);
-            query.setParameter("id", id);
+            TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p) from Person p where p.email = :email", PersonDTO.class);
+            query.setParameter("email", email);
             p = query.getSingleResult();
             em.getTransaction().commit();
             return p;
@@ -83,8 +85,8 @@ public class Facade
             em.close();
         }
     }
-    
-        public ContactInfo getPersonContactInfo(long id)
+
+    public ContactInfo getPersonContactInfo(String email)
     {
         EntityManager em = getEntityManager();
 
@@ -93,8 +95,8 @@ public class Facade
         try
         {
             em.getTransaction().begin();
-            TypedQuery<ContactInfo> query = em.createQuery("Select new DTO.ContactInfo(p) from Person p where p.id = :id", ContactInfo.class);
-            query.setParameter("id", id);
+            TypedQuery<ContactInfo> query = em.createQuery("Select new DTO.ContactInfo(p) from Person p where p.email = :email", ContactInfo.class);
+            query.setParameter("email", email);
             p = query.getSingleResult();
             em.getTransaction().commit();
             return p;
@@ -129,8 +131,16 @@ public class Facade
 
         try
         {
+            p.getAddress().setCityInfo(em.find(CityInfo.class, p.getAddress().getCityInfo().getZip()));
+            List<Phone> plist = p.getPhones();
+            for (Phone phone : plist)
+            {
+                phone.setPerson(p);
+            }
+            p.setPhones(plist);
             em.getTransaction().begin();
             em.persist(p);
+
             em.getTransaction().commit();
             return p;
         } finally
@@ -139,6 +149,50 @@ public class Facade
         }
     }
 
+    public Person editPerson(Person person)
+    {
+        EntityManager em = getEntityManager();
+
+        try
+        {
+            em.getTransaction().begin();
+            Query query = em.createQuery("select p from Person p where p.email = :email", Person.class);
+            query.setParameter("email", person.getEmail());
+            Person p = (Person) query.getSingleResult();
+            if (p != null)
+            {
+//                Query query2 = em.createNativeQuery("UPDATE ca2.person SET ADDRESS_ID=" + p.getAddress().getId() + " WHERE ID=" + p.getId());
+                p = person;
+                p.getAddress().setCityInfo(null);
+                em.merge(p);
+//                query2.executeUpdate();
+            }
+            em.getTransaction().commit();
+            return p;
+        } finally
+        {
+            em.close();
+        }
+    }
+
+    public List<CityInfo> getAllZipCodes()
+    {
+        EntityManager em = getEntityManager();
+
+        List<CityInfo> ciList = null;
+
+        try
+        {
+            em.getTransaction().begin();
+            ciList = em.createQuery("SELECT NEW DTO.CityInfoDTO(p) from CityInfo p", CityInfo.class).getResultList();
+
+            em.getTransaction().commit();
+            return ciList;
+        } finally
+        {
+            em.close();
+        }
+    }
 //    public PersonDTO deletePerson(long id)
 //    {
 //        EntityManager em = getEntityManager();
@@ -188,28 +242,6 @@ public class Facade
 //        }
 //    }
 
-    public Person editPerson(Person person)
-    {
-        EntityManager em = getEntityManager();
-
-        try
-        {
-            em.getTransaction().begin();
-            Query query = em.createQuery("select p from Person p where p.id = :id", Person.class);
-            query.setParameter("id", person.getId());
-            Person p = (Person) query.getSingleResult();
-            if (p != null)
-            {
-                p = person;
-                em.merge(p);
-            }
-            em.getTransaction().commit();
-            return p;
-        } finally
-        {
-            em.close();
-        }
-    }
     public List<PersonDTO> getPersonsInCity(String zip){
           EntityManager em = getEntityManager();
           

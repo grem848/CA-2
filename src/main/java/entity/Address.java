@@ -23,10 +23,10 @@ public class Address implements Serializable
     private String street;
     private String additionalInfo;
 
-    @OneToMany(mappedBy = "address", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
     private List<Person> persons = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private CityInfo cityInfo;
 
     public Address(String street, String additionalInfo)

@@ -1,7 +1,6 @@
 package DTO;
 
 import entity.Address;
-import entity.CityInfo;
 import entity.Person;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +12,7 @@ public class AddressDTO
     private String street;
     private String additionalInfo;
     private List<Person> persons;
-    private CityInfo cityInfo;
+    private CityInfoDTO cityInfo;
     private String cityInfoCity;
     private String cityInfoZip;
 
@@ -25,8 +24,9 @@ public class AddressDTO
     {
         this.street = a.getStreet();
         this.additionalInfo = a.getAdditionalInfo();
-        this.cityInfoCity = a.getCityInfo().getCity();
-        this.cityInfoZip = a.getCityInfo().getZip();
+        this.cityInfo = (new CityInfoDTO(a.getCityInfo()));
+//        this.cityInfoCity = a.getCityInfo().getCity();
+//        this.cityInfoZip = a.getCityInfo().getZip();
 
     }
 
@@ -90,12 +90,12 @@ public class AddressDTO
         this.persons = persons;
     }
 
-    public CityInfo getCityInfo()
+    public CityInfoDTO getCityInfo()
     {
         return cityInfo;
     }
 
-    public void setCityInfo(CityInfo cityInfo)
+    public void setCityInfo(CityInfoDTO cityInfo)
     {
         this.cityInfo = cityInfo;
     }
