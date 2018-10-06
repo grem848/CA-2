@@ -55,7 +55,7 @@ public class RESTPerson
         if(fp.getAllPersons() != null){
               return Response
                 .status(200)
-                .entity(gson.toJson(json))
+                .entity(json)
                 .type(MediaType.APPLICATION_JSON)
                 .build();
         } else {
