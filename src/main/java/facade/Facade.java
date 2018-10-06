@@ -8,6 +8,7 @@ import entity.Phone;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -37,7 +38,13 @@ public class Facade
             em.getTransaction().begin();
             TypedQuery<PersonDTO> query = em.createQuery("Select new DTO.PersonDTO(p) from Person p where p.email = :email", PersonDTO.class);
             query.setParameter("email", email);
-            p = query.getSingleResult();
+            
+            if(query.getResultList().size() == 0){
+                return p;
+            }else {
+                p = query.getSingleResult();
+            }
+            
             em.getTransaction().commit();
             return p;
         } finally
@@ -95,16 +102,23 @@ public class Facade
             em.getTransaction().begin();
             TypedQuery<ContactInfo> query = em.createQuery("Select new DTO.ContactInfo(p) from Person p where p.email = :email", ContactInfo.class);
             query.setParameter("email", email);
-            p = query.getSingleResult();
+                       
+            if(query.getResultList().size() == 0){
+                return p;
+            }else {
+                p = query.getSingleResult();
+            }
             em.getTransaction().commit();
             return p;
-        } finally
+        } catch(NoResultException ex) {
+            return null;
+        }finally
         {
             em.close();
         }
     }
 
-    public Person addPerson(Person p)
+    public PersonDTO addPerson(Person p)
     {
         EntityManager em = getEntityManager();
 
@@ -119,9 +133,9 @@ public class Facade
             p.setPhones(plist);
             em.getTransaction().begin();
             em.persist(p);
-
+            
             em.getTransaction().commit();
-            return p;
+            return getPerson(p.getEmail());
         } finally
         {
             em.close();
@@ -140,20 +154,11 @@ public class Facade
             Person p = (Person) query.getSingleResult();
             if (p != null)
             {
+//                Query query2 = em.createNativeQuery("UPDATE ca2.person SET ADDRESS_ID=" + p.getAddress().getId() + " WHERE ID=" + p.getId());
                 p = person;
-
-                p.setAddress(em.find(Person.class, p.getEmail()).getAddress());
-
-                Query query2 = em.createQuery("select p from Phone p where p.person.email = :email", Phone.class);
-                query2.setParameter("email", person.getEmail());
-                List<Phone> plist = query2.getResultList();
-                for (Phone phone : plist)
-                {
-                    phone.setPerson(p);
-                }
-                p.setPhones(plist);
-
+                p.getAddress().setCityInfo(null);
                 em.merge(p);
+//                query2.executeUpdate();
             }
             em.getTransaction().commit();
             return p;
@@ -181,48 +186,6 @@ public class Facade
             em.close();
         }
     }
-
-
-//    public List<PersonDTO> getPersonsInCity(String zip)
-//    {
-//        EntityManager em = getEntityManager();
-//
-//        List<PersonDTO> personsCityList = null;
-//
-//        try
-//        {
-//            em.getTransaction().begin();
-//            personsCityList = em.createQuery("select new DTO.PersonDTO(p) From Person p where p.address.cityInfo.city = :zip", PersonDTO.class).getResultList();
-//
-//            em.getTransaction().commit();
-//            return personsCityList;
-//        } finally
-//        {
-//            em.close();
-//        }
-//    }
-
-//    public ContactInfo getPersonInfoWithPhone(String number)
-//    {
-//
-//        EntityManager em = getEntityManager();
-//
-//        ContactInfo p = null;
-//
-//        try
-//        {
-//            em.getTransaction().begin();
-//            TypedQuery<ContactInfo> query = em.createQuery("select new DTO.ContactInfo(p) From Person p join p.phones ph where ph.number = :number", ContactInfo.class);
-//            query.setParameter("number", number);
-//            p = query.getSingleResult();
-//            em.getTransaction().commit();
-//            return p;
-//        } finally
-//        {
-//            em.close();
-//        }
-//
-//    }
 //    public PersonDTO deletePerson(long id)
 //    {
 //        EntityManager em = getEntityManager();

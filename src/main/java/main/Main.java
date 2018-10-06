@@ -10,8 +10,8 @@ public class Main
     public static void main(String[] args)
     {
 
-        Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
-        EntityManager em = facade.getEntityManager();
+//        Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
+//        EntityManager em = facade.getEntityManager();
 
          Persistence.generateSchema("pu", null); // STEP 1
          

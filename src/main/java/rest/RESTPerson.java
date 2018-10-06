@@ -1,10 +1,14 @@
 package rest;
 
+import DTO.*;
 import entity.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import facade.Facade;
 import java.util.Date;
+import java.util.List;
+import javax.json.Json;
 import javax.persistence.Persistence;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -42,21 +46,61 @@ public class RESTPerson
     @Path("complete")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response getPersonsJson()
     {
+        
         String json = gson.toJson(fp.getAllPersons());
 
-        return Response.ok(json).build();
+        if(fp.getAllPersons() != null){
+              return Response
+                .status(200)
+                .entity(gson.toJson(json))
+                .type(MediaType.APPLICATION_JSON)
+                .build();
+        } else {
+            JsonObject error = new JsonObject();
+                error.addProperty("ErrorMessage", "This email is already in use");
+                
+                
+                
+            return Response
+                    .status(200)
+                    .entity(error)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();    
+
+        }
     }
 
     @Path("complete/{email}")
     @GET
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonJsonFromEmail(@PathParam("email") String email)
+    public Response getPersonJsonFromId(@PathParam("email") String email)
     {
-        String json = gson.toJson(fp.getPerson(email));
+        
+        PersonDTO person = fp.getPerson(email);
+        if(person != null){
+            
+      return Response
+                .status(200)
+                .entity(gson.toJson(person))
+                .type(MediaType.APPLICATION_JSON)
+                .build();
+        } else {
+                JsonObject error = new JsonObject();
+                error.addProperty("ErrorMessage", "This email doesn't exist");
+                
+                
+                
+            return Response
+                    .status(200)
+                    .entity(gson.toJson(error))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();    
 
-        return Response.ok(json).build();
+        }
     }
 
     @Path("complete/contactinfo")
@@ -64,34 +108,85 @@ public class RESTPerson
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPersonsContactInfoJson()
     {
-        String json = gson.toJson(fp.getAllPersonsContactInfo());
-
-        return Response.ok(json).build();
+     
+        List<PersonDTO> persons = fp.getAllPersons();
+        
+        return Response
+                .status(200)
+                .entity(gson.toJson(persons))
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @GET
-    @Path("complete/contactinfo/{email}")
+    @Path("complete/contactinfo/{email}")    
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonContactInfoJson(@PathParam("email") String email)
-    {
-
-        String json = gson.toJson(fp.getPersonContactInfo(email));
-
-        return Response.ok(json).build();
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getPersonByEmail(@PathParam("email") String email) {     
+       
+       
+       ContactInfo json = null;
+       json = fp.getPersonContactInfo(email);
+   
+       
+       if( json != null){
+       
+       return Response
+               .status(200)
+               .entity(gson.toJson(json))
+               .type(MediaType.APPLICATION_JSON)
+               .build();
+       }else {
+         System.out.println("errorasjhfajfjshfjsfa");
+                    
+          JsonObject error = new JsonObject();
+                error.addProperty("ErrorMessage", "This email doesn't exist!");
+            System.out.println(error);
+                    
+                
+                
+            return Response
+                    .status(200)
+                    .entity(gson.toJson(error))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();    
+    
+       }
+        
     }
-
+    
     @POST
     @Path("create")
-    @Consumes("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addPersonJson(String json)
+    public Response addPersonJson(String json) // {"firstName": "Post","lastName": "Man","email": "somePost","address": {"street":"someStreet", "additionalInfo":"some"}}
     {
+        
         Person person = gson.fromJson(json, Person.class);
-
-        fp.addPerson(person);
-
-        return Response.ok(json).entity(json).build();
-
+        PersonDTO personDTO = fp.getPerson(person.getEmail());
+        System.out.println(personDTO);
+        
+        if (personDTO == null) {
+            System.out.println(person);
+                PersonDTO p = fp.addPerson(person);
+                return Response
+                    .status(200)
+                    .entity(gson.toJson(p))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        } else {
+                JsonObject error = new JsonObject();
+                error.addProperty("ErrorMessage", "This email is already in use");
+                
+                
+                
+            return Response
+                    .status(200)
+                    .entity(error)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();    
+    
+        }
     }
 
     @PUT
@@ -113,45 +208,16 @@ public class RESTPerson
             return Response.status(Response.Status.NOT_FOUND).entity("{\"status\":\"PERSON NOT FOUND\"}").build();
         }
     }
-
+    
+    
     @GET
-    @Path("zipcodes")
+    @Path("{zipcodes}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getZipcodesJson()
+    public Response getZipcodesJson(@PathParam("zipcodes") String zipcode)
     {
         String json = gson.toJson(fp.getAllZipCodes());
 
         return Response.ok(json).build();
     }
-
-//    @GET
-//    @Path("complete/{zip}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getPersonsFromZipcodeJson(@PathParam("zip") String zip)
-//    {
-//        String json = gson.toJson(fp.getPersonsInCity(zip));
-//
-//        return Response.ok(json).build();
-//    }
-
-//    @GET
-//    @Path("complete/contactinfo/{number}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getPersonalContactPhoneJson(@PathParam("number") String number)
-//    {
-//        String json = gson.toJson(fp.getPersonInfoWithPhone(number));
-//        return Response.ok(json).build();
-//    }
-//
-//    @GET
-//    @Path("complete/{zip}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getPersonsZipJson(@PathParam("zip") String zip)
-//    {
-//        String json = gson.toJson(fp.getPersonsInCity(zip));
-//
-//        return Response.ok(json).build();
-//
-//    }
 
 }
