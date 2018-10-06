@@ -185,7 +185,7 @@ public class Facade
         {
             em.close();
         }
-    }
+    } //extra for the fun
 //    public PersonDTO deletePerson(long id)
 //    {
 //        EntityManager em = getEntityManager();
