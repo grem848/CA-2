@@ -66,7 +66,7 @@ public class RESTPerson
                 
             return Response
                     .status(200)
-                    .entity(error)
+                    .entity(gson.toJson(error))
                     .type(MediaType.APPLICATION_JSON)
                     .build();    
 
@@ -182,7 +182,7 @@ public class RESTPerson
                 
             return Response
                     .status(200)
-                    .entity(error)
+                    .entity(gson.toJson(error))
                     .type(MediaType.APPLICATION_JSON)
                     .build();    
     
